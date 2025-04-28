@@ -117,6 +117,10 @@ Types:
 from particle_sdk.types.deltas.r4 import Bundle
 ```
 
+Methods:
+
+- <code title="get /deltas/R4/Patient/{particle_patient_id}/everything">client.deltas.r4.patient.<a href="./src/particle_sdk/resources/deltas/r4/patient.py">collect_datasets</a>(particle_patient_id, \*\*<a href="src/particle_sdk/types/deltas/r4/patient_collect_datasets_params.py">params</a>) -> <a href="./src/particle_sdk/types/deltas/r4/bundle.py">Bundle</a></code>
+
 ## Flat
 
 Types:
