@@ -8,8 +8,22 @@ from .r4 import (
     R4ResourceWithStreamingResponse,
     AsyncR4ResourceWithStreamingResponse,
 )
+from .patient import (
+    PatientResource,
+    AsyncPatientResource,
+    PatientResourceWithRawResponse,
+    AsyncPatientResourceWithRawResponse,
+    PatientResourceWithStreamingResponse,
+    AsyncPatientResourceWithStreamingResponse,
+)
 
 __all__ = [
+    "PatientResource",
+    "AsyncPatientResource",
+    "PatientResourceWithRawResponse",
+    "AsyncPatientResourceWithRawResponse",
+    "PatientResourceWithStreamingResponse",
+    "AsyncPatientResourceWithStreamingResponse",
     "R4Resource",
     "AsyncR4Resource",
     "R4ResourceWithRawResponse",
