@@ -28,7 +28,7 @@ class TestFiles:
     @pytest.mark.respx(base_url=base_url)
     def test_method_download(self, client: ParticleSDK, respx_mock: MockRouter) -> None:
         respx_mock.get("/api/v1/files/query_id/file_id").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
-        file = client.api.v1.files.download(
+        file = client.files.download(
             file_id="file_id",
             query_id="query_id",
         )
@@ -43,7 +43,7 @@ class TestFiles:
     def test_raw_response_download(self, client: ParticleSDK, respx_mock: MockRouter) -> None:
         respx_mock.get("/api/v1/files/query_id/file_id").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
 
-        file = client.api.v1.files.with_raw_response.download(
+        file = client.files.with_raw_response.download(
             file_id="file_id",
             query_id="query_id",
         )
@@ -58,7 +58,7 @@ class TestFiles:
     @pytest.mark.respx(base_url=base_url)
     def test_streaming_response_download(self, client: ParticleSDK, respx_mock: MockRouter) -> None:
         respx_mock.get("/api/v1/files/query_id/file_id").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
-        with client.api.v1.files.with_streaming_response.download(
+        with client.files.with_streaming_response.download(
             file_id="file_id",
             query_id="query_id",
         ) as file:
@@ -76,13 +76,13 @@ class TestFiles:
     @pytest.mark.respx(base_url=base_url)
     def test_path_params_download(self, client: ParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `query_id` but received ''"):
-            client.api.v1.files.with_raw_response.download(
+            client.files.with_raw_response.download(
                 file_id="file_id",
                 query_id="",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
-            client.api.v1.files.with_raw_response.download(
+            client.files.with_raw_response.download(
                 file_id="",
                 query_id="query_id",
             )
@@ -92,7 +92,7 @@ class TestFiles:
     @pytest.mark.respx(base_url=base_url)
     def test_method_download_zip(self, client: ParticleSDK, respx_mock: MockRouter) -> None:
         respx_mock.get("/api/v1/files/query_id/zip").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
-        file = client.api.v1.files.download_zip(
+        file = client.files.download_zip(
             "query_id",
         )
         assert file.is_closed
@@ -106,7 +106,7 @@ class TestFiles:
     def test_raw_response_download_zip(self, client: ParticleSDK, respx_mock: MockRouter) -> None:
         respx_mock.get("/api/v1/files/query_id/zip").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
 
-        file = client.api.v1.files.with_raw_response.download_zip(
+        file = client.files.with_raw_response.download_zip(
             "query_id",
         )
 
@@ -120,7 +120,7 @@ class TestFiles:
     @pytest.mark.respx(base_url=base_url)
     def test_streaming_response_download_zip(self, client: ParticleSDK, respx_mock: MockRouter) -> None:
         respx_mock.get("/api/v1/files/query_id/zip").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
-        with client.api.v1.files.with_streaming_response.download_zip(
+        with client.files.with_streaming_response.download_zip(
             "query_id",
         ) as file:
             assert not file.is_closed
@@ -137,7 +137,7 @@ class TestFiles:
     @pytest.mark.respx(base_url=base_url)
     def test_path_params_download_zip(self, client: ParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `query_id` but received ''"):
-            client.api.v1.files.with_raw_response.download_zip(
+            client.files.with_raw_response.download_zip(
                 "",
             )
 
@@ -150,7 +150,7 @@ class TestAsyncFiles:
     @pytest.mark.respx(base_url=base_url)
     async def test_method_download(self, async_client: AsyncParticleSDK, respx_mock: MockRouter) -> None:
         respx_mock.get("/api/v1/files/query_id/file_id").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
-        file = await async_client.api.v1.files.download(
+        file = await async_client.files.download(
             file_id="file_id",
             query_id="query_id",
         )
@@ -165,7 +165,7 @@ class TestAsyncFiles:
     async def test_raw_response_download(self, async_client: AsyncParticleSDK, respx_mock: MockRouter) -> None:
         respx_mock.get("/api/v1/files/query_id/file_id").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
 
-        file = await async_client.api.v1.files.with_raw_response.download(
+        file = await async_client.files.with_raw_response.download(
             file_id="file_id",
             query_id="query_id",
         )
@@ -180,7 +180,7 @@ class TestAsyncFiles:
     @pytest.mark.respx(base_url=base_url)
     async def test_streaming_response_download(self, async_client: AsyncParticleSDK, respx_mock: MockRouter) -> None:
         respx_mock.get("/api/v1/files/query_id/file_id").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
-        async with async_client.api.v1.files.with_streaming_response.download(
+        async with async_client.files.with_streaming_response.download(
             file_id="file_id",
             query_id="query_id",
         ) as file:
@@ -198,13 +198,13 @@ class TestAsyncFiles:
     @pytest.mark.respx(base_url=base_url)
     async def test_path_params_download(self, async_client: AsyncParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `query_id` but received ''"):
-            await async_client.api.v1.files.with_raw_response.download(
+            await async_client.files.with_raw_response.download(
                 file_id="file_id",
                 query_id="",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
-            await async_client.api.v1.files.with_raw_response.download(
+            await async_client.files.with_raw_response.download(
                 file_id="",
                 query_id="query_id",
             )
@@ -214,7 +214,7 @@ class TestAsyncFiles:
     @pytest.mark.respx(base_url=base_url)
     async def test_method_download_zip(self, async_client: AsyncParticleSDK, respx_mock: MockRouter) -> None:
         respx_mock.get("/api/v1/files/query_id/zip").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
-        file = await async_client.api.v1.files.download_zip(
+        file = await async_client.files.download_zip(
             "query_id",
         )
         assert file.is_closed
@@ -228,7 +228,7 @@ class TestAsyncFiles:
     async def test_raw_response_download_zip(self, async_client: AsyncParticleSDK, respx_mock: MockRouter) -> None:
         respx_mock.get("/api/v1/files/query_id/zip").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
 
-        file = await async_client.api.v1.files.with_raw_response.download_zip(
+        file = await async_client.files.with_raw_response.download_zip(
             "query_id",
         )
 
@@ -244,7 +244,7 @@ class TestAsyncFiles:
         self, async_client: AsyncParticleSDK, respx_mock: MockRouter
     ) -> None:
         respx_mock.get("/api/v1/files/query_id/zip").mock(return_value=httpx.Response(200, json={"foo": "bar"}))
-        async with async_client.api.v1.files.with_streaming_response.download_zip(
+        async with async_client.files.with_streaming_response.download_zip(
             "query_id",
         ) as file:
             assert not file.is_closed
@@ -261,6 +261,6 @@ class TestAsyncFiles:
     @pytest.mark.respx(base_url=base_url)
     async def test_path_params_download_zip(self, async_client: AsyncParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `query_id` but received ''"):
-            await async_client.api.v1.files.with_raw_response.download_zip(
+            await async_client.files.with_raw_response.download_zip(
                 "",
             )

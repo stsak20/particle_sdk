@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import os
-from typing import Any, Union, Mapping
-from typing_extensions import Self, override
+from typing import Any, Dict, Union, Mapping, cast
+from typing_extensions import Self, Literal, override
 
 import httpx
 
@@ -21,7 +21,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import auth, flat
+from .resources import auth, flat, files, queries, patients, documents
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError, ParticleSDKError
 from ._base_client import (
@@ -29,10 +29,11 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
-from .resources.api import api
 from .resources.deltas import deltas
+from .resources.projects import projects
 
 __all__ = [
+    "ENVIRONMENTS",
     "Timeout",
     "Transport",
     "ProxiesTypes",
@@ -43,9 +44,18 @@ __all__ = [
     "AsyncClient",
 ]
 
+ENVIRONMENTS: Dict[str, str] = {
+    "sandbox": "https://sandbox.particlehealth.com",
+    "production": "https://api.particlehealth.com",
+}
+
 
 class ParticleSDK(SyncAPIClient):
-    api: api.APIResource
+    documents: documents.DocumentsResource
+    files: files.FilesResource
+    patients: patients.PatientsResource
+    projects: projects.ProjectsResource
+    queries: queries.QueriesResource
     auth: auth.AuthResource
     deltas: deltas.DeltasResource
     flat: flat.FlatResource
@@ -55,11 +65,14 @@ class ParticleSDK(SyncAPIClient):
     # client options
     api_key: str
 
+    _environment: Literal["sandbox", "production"] | NotGiven
+
     def __init__(
         self,
         *,
         api_key: str | None = None,
-        base_url: str | httpx.URL | None = None,
+        environment: Literal["sandbox", "production"] | NotGiven = NOT_GIVEN,
+        base_url: str | httpx.URL | None | NotGiven = NOT_GIVEN,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
         default_headers: Mapping[str, str] | None = None,
@@ -90,10 +103,31 @@ class ParticleSDK(SyncAPIClient):
             )
         self.api_key = api_key
 
-        if base_url is None:
-            base_url = os.environ.get("PARTICLE_SDK_BASE_URL")
-        if base_url is None:
-            base_url = f"https://sandbox.particlehealth.com"
+        self._environment = environment
+
+        base_url_env = os.environ.get("PARTICLE_SDK_BASE_URL")
+        if is_given(base_url) and base_url is not None:
+            # cast required because mypy doesn't understand the type narrowing
+            base_url = cast("str | httpx.URL", base_url)  # pyright: ignore[reportUnnecessaryCast]
+        elif is_given(environment):
+            if base_url_env and base_url is not None:
+                raise ValueError(
+                    "Ambiguous URL; The `PARTICLE_SDK_BASE_URL` env var and the `environment` argument are given. If you want to use the environment, you must pass base_url=None",
+                )
+
+            try:
+                base_url = ENVIRONMENTS[environment]
+            except KeyError as exc:
+                raise ValueError(f"Unknown environment: {environment}") from exc
+        elif base_url_env is not None:
+            base_url = base_url_env
+        else:
+            self._environment = environment = "sandbox"
+
+            try:
+                base_url = ENVIRONMENTS[environment]
+            except KeyError as exc:
+                raise ValueError(f"Unknown environment: {environment}") from exc
 
         super().__init__(
             version=__version__,
@@ -106,7 +140,11 @@ class ParticleSDK(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.api = api.APIResource(self)
+        self.documents = documents.DocumentsResource(self)
+        self.files = files.FilesResource(self)
+        self.patients = patients.PatientsResource(self)
+        self.projects = projects.ProjectsResource(self)
+        self.queries = queries.QueriesResource(self)
         self.auth = auth.AuthResource(self)
         self.deltas = deltas.DeltasResource(self)
         self.flat = flat.FlatResource(self)
@@ -137,6 +175,7 @@ class ParticleSDK(SyncAPIClient):
         self,
         *,
         api_key: str | None = None,
+        environment: Literal["sandbox", "production"] | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.Client | None = None,
@@ -172,6 +211,7 @@ class ParticleSDK(SyncAPIClient):
         return self.__class__(
             api_key=api_key or self.api_key,
             base_url=base_url or self.base_url,
+            environment=environment or self._environment,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
             max_retries=max_retries if is_given(max_retries) else self.max_retries,
@@ -219,7 +259,11 @@ class ParticleSDK(SyncAPIClient):
 
 
 class AsyncParticleSDK(AsyncAPIClient):
-    api: api.AsyncAPIResource
+    documents: documents.AsyncDocumentsResource
+    files: files.AsyncFilesResource
+    patients: patients.AsyncPatientsResource
+    projects: projects.AsyncProjectsResource
+    queries: queries.AsyncQueriesResource
     auth: auth.AsyncAuthResource
     deltas: deltas.AsyncDeltasResource
     flat: flat.AsyncFlatResource
@@ -229,11 +273,14 @@ class AsyncParticleSDK(AsyncAPIClient):
     # client options
     api_key: str
 
+    _environment: Literal["sandbox", "production"] | NotGiven
+
     def __init__(
         self,
         *,
         api_key: str | None = None,
-        base_url: str | httpx.URL | None = None,
+        environment: Literal["sandbox", "production"] | NotGiven = NOT_GIVEN,
+        base_url: str | httpx.URL | None | NotGiven = NOT_GIVEN,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
         default_headers: Mapping[str, str] | None = None,
@@ -264,10 +311,31 @@ class AsyncParticleSDK(AsyncAPIClient):
             )
         self.api_key = api_key
 
-        if base_url is None:
-            base_url = os.environ.get("PARTICLE_SDK_BASE_URL")
-        if base_url is None:
-            base_url = f"https://sandbox.particlehealth.com"
+        self._environment = environment
+
+        base_url_env = os.environ.get("PARTICLE_SDK_BASE_URL")
+        if is_given(base_url) and base_url is not None:
+            # cast required because mypy doesn't understand the type narrowing
+            base_url = cast("str | httpx.URL", base_url)  # pyright: ignore[reportUnnecessaryCast]
+        elif is_given(environment):
+            if base_url_env and base_url is not None:
+                raise ValueError(
+                    "Ambiguous URL; The `PARTICLE_SDK_BASE_URL` env var and the `environment` argument are given. If you want to use the environment, you must pass base_url=None",
+                )
+
+            try:
+                base_url = ENVIRONMENTS[environment]
+            except KeyError as exc:
+                raise ValueError(f"Unknown environment: {environment}") from exc
+        elif base_url_env is not None:
+            base_url = base_url_env
+        else:
+            self._environment = environment = "sandbox"
+
+            try:
+                base_url = ENVIRONMENTS[environment]
+            except KeyError as exc:
+                raise ValueError(f"Unknown environment: {environment}") from exc
 
         super().__init__(
             version=__version__,
@@ -280,7 +348,11 @@ class AsyncParticleSDK(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.api = api.AsyncAPIResource(self)
+        self.documents = documents.AsyncDocumentsResource(self)
+        self.files = files.AsyncFilesResource(self)
+        self.patients = patients.AsyncPatientsResource(self)
+        self.projects = projects.AsyncProjectsResource(self)
+        self.queries = queries.AsyncQueriesResource(self)
         self.auth = auth.AsyncAuthResource(self)
         self.deltas = deltas.AsyncDeltasResource(self)
         self.flat = flat.AsyncFlatResource(self)
@@ -311,6 +383,7 @@ class AsyncParticleSDK(AsyncAPIClient):
         self,
         *,
         api_key: str | None = None,
+        environment: Literal["sandbox", "production"] | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.AsyncClient | None = None,
@@ -346,6 +419,7 @@ class AsyncParticleSDK(AsyncAPIClient):
         return self.__class__(
             api_key=api_key or self.api_key,
             base_url=base_url or self.base_url,
+            environment=environment or self._environment,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
             max_retries=max_retries if is_given(max_retries) else self.max_retries,
@@ -394,7 +468,11 @@ class AsyncParticleSDK(AsyncAPIClient):
 
 class ParticleSDKWithRawResponse:
     def __init__(self, client: ParticleSDK) -> None:
-        self.api = api.APIResourceWithRawResponse(client.api)
+        self.documents = documents.DocumentsResourceWithRawResponse(client.documents)
+        self.files = files.FilesResourceWithRawResponse(client.files)
+        self.patients = patients.PatientsResourceWithRawResponse(client.patients)
+        self.projects = projects.ProjectsResourceWithRawResponse(client.projects)
+        self.queries = queries.QueriesResourceWithRawResponse(client.queries)
         self.auth = auth.AuthResourceWithRawResponse(client.auth)
         self.deltas = deltas.DeltasResourceWithRawResponse(client.deltas)
         self.flat = flat.FlatResourceWithRawResponse(client.flat)
@@ -402,7 +480,11 @@ class ParticleSDKWithRawResponse:
 
 class AsyncParticleSDKWithRawResponse:
     def __init__(self, client: AsyncParticleSDK) -> None:
-        self.api = api.AsyncAPIResourceWithRawResponse(client.api)
+        self.documents = documents.AsyncDocumentsResourceWithRawResponse(client.documents)
+        self.files = files.AsyncFilesResourceWithRawResponse(client.files)
+        self.patients = patients.AsyncPatientsResourceWithRawResponse(client.patients)
+        self.projects = projects.AsyncProjectsResourceWithRawResponse(client.projects)
+        self.queries = queries.AsyncQueriesResourceWithRawResponse(client.queries)
         self.auth = auth.AsyncAuthResourceWithRawResponse(client.auth)
         self.deltas = deltas.AsyncDeltasResourceWithRawResponse(client.deltas)
         self.flat = flat.AsyncFlatResourceWithRawResponse(client.flat)
@@ -410,7 +492,11 @@ class AsyncParticleSDKWithRawResponse:
 
 class ParticleSDKWithStreamedResponse:
     def __init__(self, client: ParticleSDK) -> None:
-        self.api = api.APIResourceWithStreamingResponse(client.api)
+        self.documents = documents.DocumentsResourceWithStreamingResponse(client.documents)
+        self.files = files.FilesResourceWithStreamingResponse(client.files)
+        self.patients = patients.PatientsResourceWithStreamingResponse(client.patients)
+        self.projects = projects.ProjectsResourceWithStreamingResponse(client.projects)
+        self.queries = queries.QueriesResourceWithStreamingResponse(client.queries)
         self.auth = auth.AuthResourceWithStreamingResponse(client.auth)
         self.deltas = deltas.DeltasResourceWithStreamingResponse(client.deltas)
         self.flat = flat.FlatResourceWithStreamingResponse(client.flat)
@@ -418,7 +504,11 @@ class ParticleSDKWithStreamedResponse:
 
 class AsyncParticleSDKWithStreamedResponse:
     def __init__(self, client: AsyncParticleSDK) -> None:
-        self.api = api.AsyncAPIResourceWithStreamingResponse(client.api)
+        self.documents = documents.AsyncDocumentsResourceWithStreamingResponse(client.documents)
+        self.files = files.AsyncFilesResourceWithStreamingResponse(client.files)
+        self.patients = patients.AsyncPatientsResourceWithStreamingResponse(client.patients)
+        self.projects = projects.AsyncProjectsResourceWithStreamingResponse(client.projects)
+        self.queries = queries.AsyncQueriesResourceWithStreamingResponse(client.queries)
         self.auth = auth.AsyncAuthResourceWithStreamingResponse(client.auth)
         self.deltas = deltas.AsyncDeltasResourceWithStreamingResponse(client.deltas)
         self.flat = flat.AsyncFlatResourceWithStreamingResponse(client.flat)

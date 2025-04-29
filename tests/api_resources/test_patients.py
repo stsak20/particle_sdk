@@ -9,7 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from particle_sdk import ParticleSDK, AsyncParticleSDK
-from particle_sdk.types.api.v1 import (
+from particle_sdk.types import (
     Patient,
     ResponseMessage,
     PatientListResponse,
@@ -25,7 +25,7 @@ class TestPatients:
     @pytest.mark.skip()
     @parametrize
     def test_method_retrieve(self, client: ParticleSDK) -> None:
-        patient = client.api.v1.patients.retrieve(
+        patient = client.patients.retrieve(
             "id",
         )
         assert_matches_type(Patient, patient, path=["response"])
@@ -33,7 +33,7 @@ class TestPatients:
     @pytest.mark.skip()
     @parametrize
     def test_raw_response_retrieve(self, client: ParticleSDK) -> None:
-        response = client.api.v1.patients.with_raw_response.retrieve(
+        response = client.patients.with_raw_response.retrieve(
             "id",
         )
 
@@ -45,7 +45,7 @@ class TestPatients:
     @pytest.mark.skip()
     @parametrize
     def test_streaming_response_retrieve(self, client: ParticleSDK) -> None:
-        with client.api.v1.patients.with_streaming_response.retrieve(
+        with client.patients.with_streaming_response.retrieve(
             "id",
         ) as response:
             assert not response.is_closed
@@ -60,20 +60,20 @@ class TestPatients:
     @parametrize
     def test_path_params_retrieve(self, client: ParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            client.api.v1.patients.with_raw_response.retrieve(
+            client.patients.with_raw_response.retrieve(
                 "",
             )
 
     @pytest.mark.skip()
     @parametrize
     def test_method_list(self, client: ParticleSDK) -> None:
-        patient = client.api.v1.patients.list()
+        patient = client.patients.list()
         assert_matches_type(PatientListResponse, patient, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
     def test_method_list_with_all_params(self, client: ParticleSDK) -> None:
-        patient = client.api.v1.patients.list(
+        patient = client.patients.list(
             continuation_token="continuation_token",
         )
         assert_matches_type(PatientListResponse, patient, path=["response"])
@@ -81,7 +81,7 @@ class TestPatients:
     @pytest.mark.skip()
     @parametrize
     def test_raw_response_list(self, client: ParticleSDK) -> None:
-        response = client.api.v1.patients.with_raw_response.list()
+        response = client.patients.with_raw_response.list()
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -91,7 +91,7 @@ class TestPatients:
     @pytest.mark.skip()
     @parametrize
     def test_streaming_response_list(self, client: ParticleSDK) -> None:
-        with client.api.v1.patients.with_streaming_response.list() as response:
+        with client.patients.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
@@ -103,7 +103,7 @@ class TestPatients:
     @pytest.mark.skip()
     @parametrize
     def test_method_delete(self, client: ParticleSDK) -> None:
-        patient = client.api.v1.patients.delete(
+        patient = client.patients.delete(
             "id",
         )
         assert_matches_type(ResponseMessage, patient, path=["response"])
@@ -111,7 +111,7 @@ class TestPatients:
     @pytest.mark.skip()
     @parametrize
     def test_raw_response_delete(self, client: ParticleSDK) -> None:
-        response = client.api.v1.patients.with_raw_response.delete(
+        response = client.patients.with_raw_response.delete(
             "id",
         )
 
@@ -123,7 +123,7 @@ class TestPatients:
     @pytest.mark.skip()
     @parametrize
     def test_streaming_response_delete(self, client: ParticleSDK) -> None:
-        with client.api.v1.patients.with_streaming_response.delete(
+        with client.patients.with_streaming_response.delete(
             "id",
         ) as response:
             assert not response.is_closed
@@ -138,14 +138,14 @@ class TestPatients:
     @parametrize
     def test_path_params_delete(self, client: ParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            client.api.v1.patients.with_raw_response.delete(
+            client.patients.with_raw_response.delete(
                 "",
             )
 
     @pytest.mark.skip()
     @parametrize
     def test_method_search(self, client: ParticleSDK) -> None:
-        patient = client.api.v1.patients.search(
+        patient = client.patients.search(
             address_city="Boston",
             address_state="Boston",
             date_of_birth="1970-12-26",
@@ -160,7 +160,7 @@ class TestPatients:
     @pytest.mark.skip()
     @parametrize
     def test_method_search_with_all_params(self, client: ParticleSDK) -> None:
-        patient = client.api.v1.patients.search(
+        patient = client.patients.search(
             address_city="Boston",
             address_state="Boston",
             date_of_birth="1970-12-26",
@@ -187,7 +187,7 @@ class TestPatients:
     @pytest.mark.skip()
     @parametrize
     def test_raw_response_search(self, client: ParticleSDK) -> None:
-        response = client.api.v1.patients.with_raw_response.search(
+        response = client.patients.with_raw_response.search(
             address_city="Boston",
             address_state="Boston",
             date_of_birth="1970-12-26",
@@ -206,7 +206,7 @@ class TestPatients:
     @pytest.mark.skip()
     @parametrize
     def test_streaming_response_search(self, client: ParticleSDK) -> None:
-        with client.api.v1.patients.with_streaming_response.search(
+        with client.patients.with_streaming_response.search(
             address_city="Boston",
             address_state="Boston",
             date_of_birth="1970-12-26",
@@ -227,7 +227,7 @@ class TestPatients:
     @pytest.mark.skip()
     @parametrize
     def test_method_submit(self, client: ParticleSDK) -> None:
-        patient = client.api.v1.patients.submit(
+        patient = client.patients.submit(
             address_city="Boston",
             address_state="Boston",
             date_of_birth="1970-12-26",
@@ -242,7 +242,7 @@ class TestPatients:
     @pytest.mark.skip()
     @parametrize
     def test_method_submit_with_all_params(self, client: ParticleSDK) -> None:
-        patient = client.api.v1.patients.submit(
+        patient = client.patients.submit(
             address_city="Boston",
             address_state="Boston",
             date_of_birth="1970-12-26",
@@ -269,7 +269,7 @@ class TestPatients:
     @pytest.mark.skip()
     @parametrize
     def test_raw_response_submit(self, client: ParticleSDK) -> None:
-        response = client.api.v1.patients.with_raw_response.submit(
+        response = client.patients.with_raw_response.submit(
             address_city="Boston",
             address_state="Boston",
             date_of_birth="1970-12-26",
@@ -288,7 +288,7 @@ class TestPatients:
     @pytest.mark.skip()
     @parametrize
     def test_streaming_response_submit(self, client: ParticleSDK) -> None:
-        with client.api.v1.patients.with_streaming_response.submit(
+        with client.patients.with_streaming_response.submit(
             address_city="Boston",
             address_state="Boston",
             date_of_birth="1970-12-26",
@@ -313,7 +313,7 @@ class TestAsyncPatients:
     @pytest.mark.skip()
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncParticleSDK) -> None:
-        patient = await async_client.api.v1.patients.retrieve(
+        patient = await async_client.patients.retrieve(
             "id",
         )
         assert_matches_type(Patient, patient, path=["response"])
@@ -321,7 +321,7 @@ class TestAsyncPatients:
     @pytest.mark.skip()
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncParticleSDK) -> None:
-        response = await async_client.api.v1.patients.with_raw_response.retrieve(
+        response = await async_client.patients.with_raw_response.retrieve(
             "id",
         )
 
@@ -333,7 +333,7 @@ class TestAsyncPatients:
     @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncParticleSDK) -> None:
-        async with async_client.api.v1.patients.with_streaming_response.retrieve(
+        async with async_client.patients.with_streaming_response.retrieve(
             "id",
         ) as response:
             assert not response.is_closed
@@ -348,20 +348,20 @@ class TestAsyncPatients:
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            await async_client.api.v1.patients.with_raw_response.retrieve(
+            await async_client.patients.with_raw_response.retrieve(
                 "",
             )
 
     @pytest.mark.skip()
     @parametrize
     async def test_method_list(self, async_client: AsyncParticleSDK) -> None:
-        patient = await async_client.api.v1.patients.list()
+        patient = await async_client.patients.list()
         assert_matches_type(PatientListResponse, patient, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncParticleSDK) -> None:
-        patient = await async_client.api.v1.patients.list(
+        patient = await async_client.patients.list(
             continuation_token="continuation_token",
         )
         assert_matches_type(PatientListResponse, patient, path=["response"])
@@ -369,7 +369,7 @@ class TestAsyncPatients:
     @pytest.mark.skip()
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncParticleSDK) -> None:
-        response = await async_client.api.v1.patients.with_raw_response.list()
+        response = await async_client.patients.with_raw_response.list()
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -379,7 +379,7 @@ class TestAsyncPatients:
     @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncParticleSDK) -> None:
-        async with async_client.api.v1.patients.with_streaming_response.list() as response:
+        async with async_client.patients.with_streaming_response.list() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
@@ -391,7 +391,7 @@ class TestAsyncPatients:
     @pytest.mark.skip()
     @parametrize
     async def test_method_delete(self, async_client: AsyncParticleSDK) -> None:
-        patient = await async_client.api.v1.patients.delete(
+        patient = await async_client.patients.delete(
             "id",
         )
         assert_matches_type(ResponseMessage, patient, path=["response"])
@@ -399,7 +399,7 @@ class TestAsyncPatients:
     @pytest.mark.skip()
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncParticleSDK) -> None:
-        response = await async_client.api.v1.patients.with_raw_response.delete(
+        response = await async_client.patients.with_raw_response.delete(
             "id",
         )
 
@@ -411,7 +411,7 @@ class TestAsyncPatients:
     @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncParticleSDK) -> None:
-        async with async_client.api.v1.patients.with_streaming_response.delete(
+        async with async_client.patients.with_streaming_response.delete(
             "id",
         ) as response:
             assert not response.is_closed
@@ -426,14 +426,14 @@ class TestAsyncPatients:
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            await async_client.api.v1.patients.with_raw_response.delete(
+            await async_client.patients.with_raw_response.delete(
                 "",
             )
 
     @pytest.mark.skip()
     @parametrize
     async def test_method_search(self, async_client: AsyncParticleSDK) -> None:
-        patient = await async_client.api.v1.patients.search(
+        patient = await async_client.patients.search(
             address_city="Boston",
             address_state="Boston",
             date_of_birth="1970-12-26",
@@ -448,7 +448,7 @@ class TestAsyncPatients:
     @pytest.mark.skip()
     @parametrize
     async def test_method_search_with_all_params(self, async_client: AsyncParticleSDK) -> None:
-        patient = await async_client.api.v1.patients.search(
+        patient = await async_client.patients.search(
             address_city="Boston",
             address_state="Boston",
             date_of_birth="1970-12-26",
@@ -475,7 +475,7 @@ class TestAsyncPatients:
     @pytest.mark.skip()
     @parametrize
     async def test_raw_response_search(self, async_client: AsyncParticleSDK) -> None:
-        response = await async_client.api.v1.patients.with_raw_response.search(
+        response = await async_client.patients.with_raw_response.search(
             address_city="Boston",
             address_state="Boston",
             date_of_birth="1970-12-26",
@@ -494,7 +494,7 @@ class TestAsyncPatients:
     @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_search(self, async_client: AsyncParticleSDK) -> None:
-        async with async_client.api.v1.patients.with_streaming_response.search(
+        async with async_client.patients.with_streaming_response.search(
             address_city="Boston",
             address_state="Boston",
             date_of_birth="1970-12-26",
@@ -515,7 +515,7 @@ class TestAsyncPatients:
     @pytest.mark.skip()
     @parametrize
     async def test_method_submit(self, async_client: AsyncParticleSDK) -> None:
-        patient = await async_client.api.v1.patients.submit(
+        patient = await async_client.patients.submit(
             address_city="Boston",
             address_state="Boston",
             date_of_birth="1970-12-26",
@@ -530,7 +530,7 @@ class TestAsyncPatients:
     @pytest.mark.skip()
     @parametrize
     async def test_method_submit_with_all_params(self, async_client: AsyncParticleSDK) -> None:
-        patient = await async_client.api.v1.patients.submit(
+        patient = await async_client.patients.submit(
             address_city="Boston",
             address_state="Boston",
             date_of_birth="1970-12-26",
@@ -557,7 +557,7 @@ class TestAsyncPatients:
     @pytest.mark.skip()
     @parametrize
     async def test_raw_response_submit(self, async_client: AsyncParticleSDK) -> None:
-        response = await async_client.api.v1.patients.with_raw_response.submit(
+        response = await async_client.patients.with_raw_response.submit(
             address_city="Boston",
             address_state="Boston",
             date_of_birth="1970-12-26",
@@ -576,7 +576,7 @@ class TestAsyncPatients:
     @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_submit(self, async_client: AsyncParticleSDK) -> None:
-        async with async_client.api.v1.patients.with_streaming_response.submit(
+        async with async_client.patients.with_streaming_response.submit(
             address_city="Boston",
             address_state="Boston",
             date_of_birth="1970-12-26",

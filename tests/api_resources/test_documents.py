@@ -9,11 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from particle_sdk import ParticleSDK, AsyncParticleSDK
-from particle_sdk.types.api.v1 import (
-    Document,
-    ResponseMessage,
-    DocumentGetPatientDocumentsResponse,
-)
+from particle_sdk.types import Document, ResponseMessage, DocumentGetPatientDocumentsResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -24,7 +20,7 @@ class TestDocuments:
     @pytest.mark.skip()
     @parametrize
     def test_method_retrieve(self, client: ParticleSDK) -> None:
-        document = client.api.v1.documents.retrieve(
+        document = client.documents.retrieve(
             "id",
         )
         assert_matches_type(Document, document, path=["response"])
@@ -32,7 +28,7 @@ class TestDocuments:
     @pytest.mark.skip()
     @parametrize
     def test_raw_response_retrieve(self, client: ParticleSDK) -> None:
-        response = client.api.v1.documents.with_raw_response.retrieve(
+        response = client.documents.with_raw_response.retrieve(
             "id",
         )
 
@@ -44,7 +40,7 @@ class TestDocuments:
     @pytest.mark.skip()
     @parametrize
     def test_streaming_response_retrieve(self, client: ParticleSDK) -> None:
-        with client.api.v1.documents.with_streaming_response.retrieve(
+        with client.documents.with_streaming_response.retrieve(
             "id",
         ) as response:
             assert not response.is_closed
@@ -59,14 +55,14 @@ class TestDocuments:
     @parametrize
     def test_path_params_retrieve(self, client: ParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            client.api.v1.documents.with_raw_response.retrieve(
+            client.documents.with_raw_response.retrieve(
                 "",
             )
 
     @pytest.mark.skip()
     @parametrize
     def test_method_delete(self, client: ParticleSDK) -> None:
-        document = client.api.v1.documents.delete(
+        document = client.documents.delete(
             "id",
         )
         assert_matches_type(ResponseMessage, document, path=["response"])
@@ -74,7 +70,7 @@ class TestDocuments:
     @pytest.mark.skip()
     @parametrize
     def test_raw_response_delete(self, client: ParticleSDK) -> None:
-        response = client.api.v1.documents.with_raw_response.delete(
+        response = client.documents.with_raw_response.delete(
             "id",
         )
 
@@ -86,7 +82,7 @@ class TestDocuments:
     @pytest.mark.skip()
     @parametrize
     def test_streaming_response_delete(self, client: ParticleSDK) -> None:
-        with client.api.v1.documents.with_streaming_response.delete(
+        with client.documents.with_streaming_response.delete(
             "id",
         ) as response:
             assert not response.is_closed
@@ -101,14 +97,14 @@ class TestDocuments:
     @parametrize
     def test_path_params_delete(self, client: ParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            client.api.v1.documents.with_raw_response.delete(
+            client.documents.with_raw_response.delete(
                 "",
             )
 
     @pytest.mark.skip()
     @parametrize
     def test_method_get_patient_documents(self, client: ParticleSDK) -> None:
-        document = client.api.v1.documents.get_patient_documents(
+        document = client.documents.get_patient_documents(
             "id",
         )
         assert_matches_type(DocumentGetPatientDocumentsResponse, document, path=["response"])
@@ -116,7 +112,7 @@ class TestDocuments:
     @pytest.mark.skip()
     @parametrize
     def test_raw_response_get_patient_documents(self, client: ParticleSDK) -> None:
-        response = client.api.v1.documents.with_raw_response.get_patient_documents(
+        response = client.documents.with_raw_response.get_patient_documents(
             "id",
         )
 
@@ -128,7 +124,7 @@ class TestDocuments:
     @pytest.mark.skip()
     @parametrize
     def test_streaming_response_get_patient_documents(self, client: ParticleSDK) -> None:
-        with client.api.v1.documents.with_streaming_response.get_patient_documents(
+        with client.documents.with_streaming_response.get_patient_documents(
             "id",
         ) as response:
             assert not response.is_closed
@@ -143,14 +139,14 @@ class TestDocuments:
     @parametrize
     def test_path_params_get_patient_documents(self, client: ParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            client.api.v1.documents.with_raw_response.get_patient_documents(
+            client.documents.with_raw_response.get_patient_documents(
                 "",
             )
 
     @pytest.mark.skip()
     @parametrize
     def test_method_submit(self, client: ParticleSDK) -> None:
-        document = client.api.v1.documents.submit(
+        document = client.documents.submit(
             file=b"raw file contents",
             metadata="metadata",
         )
@@ -159,7 +155,7 @@ class TestDocuments:
     @pytest.mark.skip()
     @parametrize
     def test_raw_response_submit(self, client: ParticleSDK) -> None:
-        response = client.api.v1.documents.with_raw_response.submit(
+        response = client.documents.with_raw_response.submit(
             file=b"raw file contents",
             metadata="metadata",
         )
@@ -172,7 +168,7 @@ class TestDocuments:
     @pytest.mark.skip()
     @parametrize
     def test_streaming_response_submit(self, client: ParticleSDK) -> None:
-        with client.api.v1.documents.with_streaming_response.submit(
+        with client.documents.with_streaming_response.submit(
             file=b"raw file contents",
             metadata="metadata",
         ) as response:
@@ -191,7 +187,7 @@ class TestAsyncDocuments:
     @pytest.mark.skip()
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncParticleSDK) -> None:
-        document = await async_client.api.v1.documents.retrieve(
+        document = await async_client.documents.retrieve(
             "id",
         )
         assert_matches_type(Document, document, path=["response"])
@@ -199,7 +195,7 @@ class TestAsyncDocuments:
     @pytest.mark.skip()
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncParticleSDK) -> None:
-        response = await async_client.api.v1.documents.with_raw_response.retrieve(
+        response = await async_client.documents.with_raw_response.retrieve(
             "id",
         )
 
@@ -211,7 +207,7 @@ class TestAsyncDocuments:
     @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncParticleSDK) -> None:
-        async with async_client.api.v1.documents.with_streaming_response.retrieve(
+        async with async_client.documents.with_streaming_response.retrieve(
             "id",
         ) as response:
             assert not response.is_closed
@@ -226,14 +222,14 @@ class TestAsyncDocuments:
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            await async_client.api.v1.documents.with_raw_response.retrieve(
+            await async_client.documents.with_raw_response.retrieve(
                 "",
             )
 
     @pytest.mark.skip()
     @parametrize
     async def test_method_delete(self, async_client: AsyncParticleSDK) -> None:
-        document = await async_client.api.v1.documents.delete(
+        document = await async_client.documents.delete(
             "id",
         )
         assert_matches_type(ResponseMessage, document, path=["response"])
@@ -241,7 +237,7 @@ class TestAsyncDocuments:
     @pytest.mark.skip()
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncParticleSDK) -> None:
-        response = await async_client.api.v1.documents.with_raw_response.delete(
+        response = await async_client.documents.with_raw_response.delete(
             "id",
         )
 
@@ -253,7 +249,7 @@ class TestAsyncDocuments:
     @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncParticleSDK) -> None:
-        async with async_client.api.v1.documents.with_streaming_response.delete(
+        async with async_client.documents.with_streaming_response.delete(
             "id",
         ) as response:
             assert not response.is_closed
@@ -268,14 +264,14 @@ class TestAsyncDocuments:
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            await async_client.api.v1.documents.with_raw_response.delete(
+            await async_client.documents.with_raw_response.delete(
                 "",
             )
 
     @pytest.mark.skip()
     @parametrize
     async def test_method_get_patient_documents(self, async_client: AsyncParticleSDK) -> None:
-        document = await async_client.api.v1.documents.get_patient_documents(
+        document = await async_client.documents.get_patient_documents(
             "id",
         )
         assert_matches_type(DocumentGetPatientDocumentsResponse, document, path=["response"])
@@ -283,7 +279,7 @@ class TestAsyncDocuments:
     @pytest.mark.skip()
     @parametrize
     async def test_raw_response_get_patient_documents(self, async_client: AsyncParticleSDK) -> None:
-        response = await async_client.api.v1.documents.with_raw_response.get_patient_documents(
+        response = await async_client.documents.with_raw_response.get_patient_documents(
             "id",
         )
 
@@ -295,7 +291,7 @@ class TestAsyncDocuments:
     @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_get_patient_documents(self, async_client: AsyncParticleSDK) -> None:
-        async with async_client.api.v1.documents.with_streaming_response.get_patient_documents(
+        async with async_client.documents.with_streaming_response.get_patient_documents(
             "id",
         ) as response:
             assert not response.is_closed
@@ -310,14 +306,14 @@ class TestAsyncDocuments:
     @parametrize
     async def test_path_params_get_patient_documents(self, async_client: AsyncParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
-            await async_client.api.v1.documents.with_raw_response.get_patient_documents(
+            await async_client.documents.with_raw_response.get_patient_documents(
                 "",
             )
 
     @pytest.mark.skip()
     @parametrize
     async def test_method_submit(self, async_client: AsyncParticleSDK) -> None:
-        document = await async_client.api.v1.documents.submit(
+        document = await async_client.documents.submit(
             file=b"raw file contents",
             metadata="metadata",
         )
@@ -326,7 +322,7 @@ class TestAsyncDocuments:
     @pytest.mark.skip()
     @parametrize
     async def test_raw_response_submit(self, async_client: AsyncParticleSDK) -> None:
-        response = await async_client.api.v1.documents.with_raw_response.submit(
+        response = await async_client.documents.with_raw_response.submit(
             file=b"raw file contents",
             metadata="metadata",
         )
@@ -339,7 +335,7 @@ class TestAsyncDocuments:
     @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_submit(self, async_client: AsyncParticleSDK) -> None:
-        async with async_client.api.v1.documents.with_streaming_response.submit(
+        async with async_client.documents.with_streaming_response.submit(
             file=b"raw file contents",
             metadata="metadata",
         ) as response:

@@ -9,7 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from particle_sdk import ParticleSDK, AsyncParticleSDK
-from particle_sdk.types.api.v1.projects import Batch
+from particle_sdk.types.projects import Batch
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -20,7 +20,7 @@ class TestBatches:
     @pytest.mark.skip()
     @parametrize
     def test_method_create(self, client: ParticleSDK) -> None:
-        batch = client.api.v1.projects.batches.create(
+        batch = client.projects.batches.create(
             project_id="project_id",
         )
         assert_matches_type(Batch, batch, path=["response"])
@@ -28,7 +28,7 @@ class TestBatches:
     @pytest.mark.skip()
     @parametrize
     def test_method_create_with_all_params(self, client: ParticleSDK) -> None:
-        batch = client.api.v1.projects.batches.create(
+        batch = client.projects.batches.create(
             project_id="project_id",
             batch_id="batch_id",
             batch_type="batch_type",
@@ -43,7 +43,7 @@ class TestBatches:
     @pytest.mark.skip()
     @parametrize
     def test_raw_response_create(self, client: ParticleSDK) -> None:
-        response = client.api.v1.projects.batches.with_raw_response.create(
+        response = client.projects.batches.with_raw_response.create(
             project_id="project_id",
         )
 
@@ -55,7 +55,7 @@ class TestBatches:
     @pytest.mark.skip()
     @parametrize
     def test_streaming_response_create(self, client: ParticleSDK) -> None:
-        with client.api.v1.projects.batches.with_streaming_response.create(
+        with client.projects.batches.with_streaming_response.create(
             project_id="project_id",
         ) as response:
             assert not response.is_closed
@@ -70,14 +70,14 @@ class TestBatches:
     @parametrize
     def test_path_params_create(self, client: ParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `project_id` but received ''"):
-            client.api.v1.projects.batches.with_raw_response.create(
+            client.projects.batches.with_raw_response.create(
                 project_id="",
             )
 
     @pytest.mark.skip()
     @parametrize
     def test_method_retrieve(self, client: ParticleSDK) -> None:
-        batch = client.api.v1.projects.batches.retrieve(
+        batch = client.projects.batches.retrieve(
             batch_id="batch_id",
             project_id="project_id",
         )
@@ -86,7 +86,7 @@ class TestBatches:
     @pytest.mark.skip()
     @parametrize
     def test_raw_response_retrieve(self, client: ParticleSDK) -> None:
-        response = client.api.v1.projects.batches.with_raw_response.retrieve(
+        response = client.projects.batches.with_raw_response.retrieve(
             batch_id="batch_id",
             project_id="project_id",
         )
@@ -99,7 +99,7 @@ class TestBatches:
     @pytest.mark.skip()
     @parametrize
     def test_streaming_response_retrieve(self, client: ParticleSDK) -> None:
-        with client.api.v1.projects.batches.with_streaming_response.retrieve(
+        with client.projects.batches.with_streaming_response.retrieve(
             batch_id="batch_id",
             project_id="project_id",
         ) as response:
@@ -115,13 +115,13 @@ class TestBatches:
     @parametrize
     def test_path_params_retrieve(self, client: ParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `project_id` but received ''"):
-            client.api.v1.projects.batches.with_raw_response.retrieve(
+            client.projects.batches.with_raw_response.retrieve(
                 batch_id="batch_id",
                 project_id="",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `batch_id` but received ''"):
-            client.api.v1.projects.batches.with_raw_response.retrieve(
+            client.projects.batches.with_raw_response.retrieve(
                 batch_id="",
                 project_id="project_id",
             )
@@ -129,7 +129,7 @@ class TestBatches:
     @pytest.mark.skip()
     @parametrize
     def test_method_list(self, client: ParticleSDK) -> None:
-        batch = client.api.v1.projects.batches.list(
+        batch = client.projects.batches.list(
             "project_id",
         )
         assert_matches_type(Batch, batch, path=["response"])
@@ -137,7 +137,7 @@ class TestBatches:
     @pytest.mark.skip()
     @parametrize
     def test_raw_response_list(self, client: ParticleSDK) -> None:
-        response = client.api.v1.projects.batches.with_raw_response.list(
+        response = client.projects.batches.with_raw_response.list(
             "project_id",
         )
 
@@ -149,7 +149,7 @@ class TestBatches:
     @pytest.mark.skip()
     @parametrize
     def test_streaming_response_list(self, client: ParticleSDK) -> None:
-        with client.api.v1.projects.batches.with_streaming_response.list(
+        with client.projects.batches.with_streaming_response.list(
             "project_id",
         ) as response:
             assert not response.is_closed
@@ -164,7 +164,7 @@ class TestBatches:
     @parametrize
     def test_path_params_list(self, client: ParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `project_id` but received ''"):
-            client.api.v1.projects.batches.with_raw_response.list(
+            client.projects.batches.with_raw_response.list(
                 "",
             )
 
@@ -175,7 +175,7 @@ class TestAsyncBatches:
     @pytest.mark.skip()
     @parametrize
     async def test_method_create(self, async_client: AsyncParticleSDK) -> None:
-        batch = await async_client.api.v1.projects.batches.create(
+        batch = await async_client.projects.batches.create(
             project_id="project_id",
         )
         assert_matches_type(Batch, batch, path=["response"])
@@ -183,7 +183,7 @@ class TestAsyncBatches:
     @pytest.mark.skip()
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncParticleSDK) -> None:
-        batch = await async_client.api.v1.projects.batches.create(
+        batch = await async_client.projects.batches.create(
             project_id="project_id",
             batch_id="batch_id",
             batch_type="batch_type",
@@ -198,7 +198,7 @@ class TestAsyncBatches:
     @pytest.mark.skip()
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncParticleSDK) -> None:
-        response = await async_client.api.v1.projects.batches.with_raw_response.create(
+        response = await async_client.projects.batches.with_raw_response.create(
             project_id="project_id",
         )
 
@@ -210,7 +210,7 @@ class TestAsyncBatches:
     @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncParticleSDK) -> None:
-        async with async_client.api.v1.projects.batches.with_streaming_response.create(
+        async with async_client.projects.batches.with_streaming_response.create(
             project_id="project_id",
         ) as response:
             assert not response.is_closed
@@ -225,14 +225,14 @@ class TestAsyncBatches:
     @parametrize
     async def test_path_params_create(self, async_client: AsyncParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `project_id` but received ''"):
-            await async_client.api.v1.projects.batches.with_raw_response.create(
+            await async_client.projects.batches.with_raw_response.create(
                 project_id="",
             )
 
     @pytest.mark.skip()
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncParticleSDK) -> None:
-        batch = await async_client.api.v1.projects.batches.retrieve(
+        batch = await async_client.projects.batches.retrieve(
             batch_id="batch_id",
             project_id="project_id",
         )
@@ -241,7 +241,7 @@ class TestAsyncBatches:
     @pytest.mark.skip()
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncParticleSDK) -> None:
-        response = await async_client.api.v1.projects.batches.with_raw_response.retrieve(
+        response = await async_client.projects.batches.with_raw_response.retrieve(
             batch_id="batch_id",
             project_id="project_id",
         )
@@ -254,7 +254,7 @@ class TestAsyncBatches:
     @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncParticleSDK) -> None:
-        async with async_client.api.v1.projects.batches.with_streaming_response.retrieve(
+        async with async_client.projects.batches.with_streaming_response.retrieve(
             batch_id="batch_id",
             project_id="project_id",
         ) as response:
@@ -270,13 +270,13 @@ class TestAsyncBatches:
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `project_id` but received ''"):
-            await async_client.api.v1.projects.batches.with_raw_response.retrieve(
+            await async_client.projects.batches.with_raw_response.retrieve(
                 batch_id="batch_id",
                 project_id="",
             )
 
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `batch_id` but received ''"):
-            await async_client.api.v1.projects.batches.with_raw_response.retrieve(
+            await async_client.projects.batches.with_raw_response.retrieve(
                 batch_id="",
                 project_id="project_id",
             )
@@ -284,7 +284,7 @@ class TestAsyncBatches:
     @pytest.mark.skip()
     @parametrize
     async def test_method_list(self, async_client: AsyncParticleSDK) -> None:
-        batch = await async_client.api.v1.projects.batches.list(
+        batch = await async_client.projects.batches.list(
             "project_id",
         )
         assert_matches_type(Batch, batch, path=["response"])
@@ -292,7 +292,7 @@ class TestAsyncBatches:
     @pytest.mark.skip()
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncParticleSDK) -> None:
-        response = await async_client.api.v1.projects.batches.with_raw_response.list(
+        response = await async_client.projects.batches.with_raw_response.list(
             "project_id",
         )
 
@@ -304,7 +304,7 @@ class TestAsyncBatches:
     @pytest.mark.skip()
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncParticleSDK) -> None:
-        async with async_client.api.v1.projects.batches.with_streaming_response.list(
+        async with async_client.projects.batches.with_streaming_response.list(
             "project_id",
         ) as response:
             assert not response.is_closed
@@ -319,6 +319,6 @@ class TestAsyncBatches:
     @parametrize
     async def test_path_params_list(self, async_client: AsyncParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `project_id` but received ''"):
-            await async_client.api.v1.projects.batches.with_raw_response.list(
+            await async_client.projects.batches.with_raw_response.list(
                 "",
             )

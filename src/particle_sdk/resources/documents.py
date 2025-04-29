@@ -6,21 +6,21 @@ from typing import Mapping, cast
 
 import httpx
 
-from ...._types import NOT_GIVEN, Body, Query, Headers, NotGiven, FileTypes
-from ...._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
-from ...._compat import cached_property
-from ...._resource import SyncAPIResource, AsyncAPIResource
-from ...._response import (
+from ..types import document_submit_params
+from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven, FileTypes
+from .._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
+from .._compat import cached_property
+from .._resource import SyncAPIResource, AsyncAPIResource
+from .._response import (
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ...._base_client import make_request_options
-from ....types.api.v1 import document_submit_params
-from ....types.api.v1.document import Document
-from ....types.api.v1.response_message import ResponseMessage
-from ....types.api.v1.document_get_patient_documents_response import DocumentGetPatientDocumentsResponse
+from .._base_client import make_request_options
+from ..types.document import Document
+from ..types.response_message import ResponseMessage
+from ..types.document_get_patient_documents_response import DocumentGetPatientDocumentsResponse
 
 __all__ = ["DocumentsResource", "AsyncDocumentsResource"]
 

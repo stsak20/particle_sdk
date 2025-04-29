@@ -53,34 +53,6 @@ class TestAuth:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
-    @parametrize
-    def test_method_generate_token_from_vim(self, client: ParticleSDK) -> None:
-        auth = client.auth.generate_token_from_vim()
-        assert_matches_type(str, auth, path=["response"])
-
-    @pytest.mark.skip()
-    @parametrize
-    def test_raw_response_generate_token_from_vim(self, client: ParticleSDK) -> None:
-        response = client.auth.with_raw_response.generate_token_from_vim()
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        auth = response.parse()
-        assert_matches_type(str, auth, path=["response"])
-
-    @pytest.mark.skip()
-    @parametrize
-    def test_streaming_response_generate_token_from_vim(self, client: ParticleSDK) -> None:
-        with client.auth.with_streaming_response.generate_token_from_vim() as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            auth = response.parse()
-            assert_matches_type(str, auth, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
 
 class TestAsyncAuth:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
@@ -114,34 +86,6 @@ class TestAsyncAuth:
             client_id="client-id",
             client_secret="client-secret",
         ) as response:
-            assert not response.is_closed
-            assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-
-            auth = await response.parse()
-            assert_matches_type(str, auth, path=["response"])
-
-        assert cast(Any, response.is_closed) is True
-
-    @pytest.mark.skip()
-    @parametrize
-    async def test_method_generate_token_from_vim(self, async_client: AsyncParticleSDK) -> None:
-        auth = await async_client.auth.generate_token_from_vim()
-        assert_matches_type(str, auth, path=["response"])
-
-    @pytest.mark.skip()
-    @parametrize
-    async def test_raw_response_generate_token_from_vim(self, async_client: AsyncParticleSDK) -> None:
-        response = await async_client.auth.with_raw_response.generate_token_from_vim()
-
-        assert response.is_closed is True
-        assert response.http_request.headers.get("X-Stainless-Lang") == "python"
-        auth = await response.parse()
-        assert_matches_type(str, auth, path=["response"])
-
-    @pytest.mark.skip()
-    @parametrize
-    async def test_streaming_response_generate_token_from_vim(self, async_client: AsyncParticleSDK) -> None:
-        async with async_client.auth.with_streaming_response.generate_token_from_vim() as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
