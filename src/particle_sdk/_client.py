@@ -13,6 +13,7 @@ from ._qs import Querystring
 from ._types import (
     NOT_GIVEN,
     Omit,
+    Headers,
     Timeout,
     NotGiven,
     Transport,
@@ -23,7 +24,7 @@ from ._utils import is_given, get_async_library
 from ._version import __version__
 from .resources import auth, files, queries, patients, documents
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
-from ._exceptions import APIStatusError, ParticleSDKError
+from ._exceptions import APIStatusError
 from ._base_client import (
     DEFAULT_MAX_RETRIES,
     SyncAPIClient,
@@ -62,7 +63,7 @@ class ParticleSDK(SyncAPIClient):
     with_streaming_response: ParticleSDKWithStreamedResponse
 
     # client options
-    api_key: str
+    api_key: str | None
 
     _environment: Literal["sandbox", "production"] | NotGiven
 
@@ -96,10 +97,6 @@ class ParticleSDK(SyncAPIClient):
         """
         if api_key is None:
             api_key = os.environ.get("PARTICLE_SDK_API_KEY")
-        if api_key is None:
-            raise ParticleSDKError(
-                "The api_key client option must be set either by passing api_key to the client or by setting the PARTICLE_SDK_API_KEY environment variable"
-            )
         self.api_key = api_key
 
         self._environment = environment
@@ -158,6 +155,8 @@ class ParticleSDK(SyncAPIClient):
     @override
     def auth_headers(self) -> dict[str, str]:
         api_key = self.api_key
+        if api_key is None:
+            return {}
         return {"Authorization": api_key}
 
     @property
@@ -168,6 +167,17 @@ class ParticleSDK(SyncAPIClient):
             "X-Stainless-Async": "false",
             **self._custom_headers,
         }
+
+    @override
+    def _validate_headers(self, headers: Headers, custom_headers: Headers) -> None:
+        if self.api_key and headers.get("Authorization"):
+            return
+        if isinstance(custom_headers.get("Authorization"), Omit):
+            return
+
+        raise TypeError(
+            '"Could not resolve authentication method. Expected the api_key to be set. Or for the `Authorization` headers to be explicitly omitted"'
+        )
 
     def copy(
         self,
@@ -268,7 +278,7 @@ class AsyncParticleSDK(AsyncAPIClient):
     with_streaming_response: AsyncParticleSDKWithStreamedResponse
 
     # client options
-    api_key: str
+    api_key: str | None
 
     _environment: Literal["sandbox", "production"] | NotGiven
 
@@ -302,10 +312,6 @@ class AsyncParticleSDK(AsyncAPIClient):
         """
         if api_key is None:
             api_key = os.environ.get("PARTICLE_SDK_API_KEY")
-        if api_key is None:
-            raise ParticleSDKError(
-                "The api_key client option must be set either by passing api_key to the client or by setting the PARTICLE_SDK_API_KEY environment variable"
-            )
         self.api_key = api_key
 
         self._environment = environment
@@ -364,6 +370,8 @@ class AsyncParticleSDK(AsyncAPIClient):
     @override
     def auth_headers(self) -> dict[str, str]:
         api_key = self.api_key
+        if api_key is None:
+            return {}
         return {"Authorization": api_key}
 
     @property
@@ -374,6 +382,17 @@ class AsyncParticleSDK(AsyncAPIClient):
             "X-Stainless-Async": f"async:{get_async_library()}",
             **self._custom_headers,
         }
+
+    @override
+    def _validate_headers(self, headers: Headers, custom_headers: Headers) -> None:
+        if self.api_key and headers.get("Authorization"):
+            return
+        if isinstance(custom_headers.get("Authorization"), Omit):
+            return
+
+        raise TypeError(
+            '"Could not resolve authentication method. Expected the api_key to be set. Or for the `Authorization` headers to be explicitly omitted"'
+        )
 
     def copy(
         self,
