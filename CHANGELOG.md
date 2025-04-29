@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.0-alpha.2 (2025-04-29)
+
+Full Changelog: [v0.1.0-alpha.1...v0.1.0-alpha.2](https://github.com/stsak20/particle_sdk/compare/v0.1.0-alpha.1...v0.1.0-alpha.2)
+
+### Features
+
+* **api:** update via SDK Studio ([7b353ba](https://github.com/stsak20/particle_sdk/commit/7b353bac4225b0f4d47944d4ff6326590279a5d7))
+* **api:** update via SDK Studio ([c2ca43e](https://github.com/stsak20/particle_sdk/commit/c2ca43efe71ee9f4dc519fe9ddec0129750dca50))
+
 ## 0.1.0-alpha.1 (2025-04-29)
 
 Full Changelog: [v0.0.1-alpha.0...v0.1.0-alpha.1](https://github.com/stsak20/particle_sdk/compare/v0.0.1-alpha.0...v0.1.0-alpha.1)

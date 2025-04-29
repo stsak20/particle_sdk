@@ -128,12 +128,3 @@ Methods:
 
 - <code title="get /deltas/flat/{particle_patient_id}">client.deltas.flat.<a href="./src/particle_sdk/resources/deltas/flat.py">collect_datasets</a>(particle_patient_id, \*\*<a href="src/particle_sdk/types/deltas/flat_collect_datasets_params.py">params</a>) -> <a href="./src/particle_sdk/types/deltas/datasets.py">Datasets</a></code>
 - <code title="get /deltas/flat/{particle_patient_id}/{resource_type}/{resource_id}">client.deltas.flat.<a href="./src/particle_sdk/resources/deltas/flat.py">get_resource</a>(resource_id, \*, particle_patient_id, resource_type) -> <a href="./src/particle_sdk/types/deltas/datasets.py">Datasets</a></code>
-
-# Flat
-
-Methods:
-
-- <code title="post /flat">client.flat.<a href="./src/particle_sdk/resources/flat.py">create</a>(\*\*<a href="src/particle_sdk/types/flat_create_params.py">params</a>) -> <a href="./src/particle_sdk/types/query.py">Query</a></code>
-- <code title="get /flat/{id}">client.flat.<a href="./src/particle_sdk/resources/flat.py">retrieve</a>(id) -> <a href="./src/particle_sdk/types/query.py">Query</a></code>
-- <code title="get /flat/{id}/collect-data">client.flat.<a href="./src/particle_sdk/resources/flat.py">collect_data</a>(id, \*\*<a href="src/particle_sdk/types/flat_collect_data_params.py">params</a>) -> <a href="./src/particle_sdk/types/deltas/datasets.py">Datasets</a></code>
-- <code title="get /flat/{patient_id}/{resource_type}/{resource_id}">client.flat.<a href="./src/particle_sdk/resources/flat.py">retrieve_resource</a>(resource_id, \*, patient_id, resource_type) -> <a href="./src/particle_sdk/types/deltas/datasets.py">Datasets</a></code>

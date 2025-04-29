@@ -21,7 +21,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import auth, flat, files, queries, patients, documents
+from .resources import auth, files, queries, patients, documents
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError, ParticleSDKError
 from ._base_client import (
@@ -58,7 +58,6 @@ class ParticleSDK(SyncAPIClient):
     queries: queries.QueriesResource
     auth: auth.AuthResource
     deltas: deltas.DeltasResource
-    flat: flat.FlatResource
     with_raw_response: ParticleSDKWithRawResponse
     with_streaming_response: ParticleSDKWithStreamedResponse
 
@@ -147,7 +146,6 @@ class ParticleSDK(SyncAPIClient):
         self.queries = queries.QueriesResource(self)
         self.auth = auth.AuthResource(self)
         self.deltas = deltas.DeltasResource(self)
-        self.flat = flat.FlatResource(self)
         self.with_raw_response = ParticleSDKWithRawResponse(self)
         self.with_streaming_response = ParticleSDKWithStreamedResponse(self)
 
@@ -266,7 +264,6 @@ class AsyncParticleSDK(AsyncAPIClient):
     queries: queries.AsyncQueriesResource
     auth: auth.AsyncAuthResource
     deltas: deltas.AsyncDeltasResource
-    flat: flat.AsyncFlatResource
     with_raw_response: AsyncParticleSDKWithRawResponse
     with_streaming_response: AsyncParticleSDKWithStreamedResponse
 
@@ -355,7 +352,6 @@ class AsyncParticleSDK(AsyncAPIClient):
         self.queries = queries.AsyncQueriesResource(self)
         self.auth = auth.AsyncAuthResource(self)
         self.deltas = deltas.AsyncDeltasResource(self)
-        self.flat = flat.AsyncFlatResource(self)
         self.with_raw_response = AsyncParticleSDKWithRawResponse(self)
         self.with_streaming_response = AsyncParticleSDKWithStreamedResponse(self)
 
@@ -475,7 +471,6 @@ class ParticleSDKWithRawResponse:
         self.queries = queries.QueriesResourceWithRawResponse(client.queries)
         self.auth = auth.AuthResourceWithRawResponse(client.auth)
         self.deltas = deltas.DeltasResourceWithRawResponse(client.deltas)
-        self.flat = flat.FlatResourceWithRawResponse(client.flat)
 
 
 class AsyncParticleSDKWithRawResponse:
@@ -487,7 +482,6 @@ class AsyncParticleSDKWithRawResponse:
         self.queries = queries.AsyncQueriesResourceWithRawResponse(client.queries)
         self.auth = auth.AsyncAuthResourceWithRawResponse(client.auth)
         self.deltas = deltas.AsyncDeltasResourceWithRawResponse(client.deltas)
-        self.flat = flat.AsyncFlatResourceWithRawResponse(client.flat)
 
 
 class ParticleSDKWithStreamedResponse:
@@ -499,7 +493,6 @@ class ParticleSDKWithStreamedResponse:
         self.queries = queries.QueriesResourceWithStreamingResponse(client.queries)
         self.auth = auth.AuthResourceWithStreamingResponse(client.auth)
         self.deltas = deltas.DeltasResourceWithStreamingResponse(client.deltas)
-        self.flat = flat.FlatResourceWithStreamingResponse(client.flat)
 
 
 class AsyncParticleSDKWithStreamedResponse:
@@ -511,7 +504,6 @@ class AsyncParticleSDKWithStreamedResponse:
         self.queries = queries.AsyncQueriesResourceWithStreamingResponse(client.queries)
         self.auth = auth.AsyncAuthResourceWithStreamingResponse(client.auth)
         self.deltas = deltas.AsyncDeltasResourceWithStreamingResponse(client.deltas)
-        self.flat = flat.AsyncFlatResourceWithStreamingResponse(client.flat)
 
 
 Client = ParticleSDK
