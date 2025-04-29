@@ -22,6 +22,7 @@ class TestAuth:
         auth = client.auth.generate_token(
             client_id="client-id",
             client_secret="client-secret",
+            scope="scope",
         )
         assert_matches_type(str, auth, path=["response"])
 
@@ -31,6 +32,7 @@ class TestAuth:
         response = client.auth.with_raw_response.generate_token(
             client_id="client-id",
             client_secret="client-secret",
+            scope="scope",
         )
 
         assert response.is_closed is True
@@ -44,6 +46,7 @@ class TestAuth:
         with client.auth.with_streaming_response.generate_token(
             client_id="client-id",
             client_secret="client-secret",
+            scope="scope",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -63,6 +66,7 @@ class TestAsyncAuth:
         auth = await async_client.auth.generate_token(
             client_id="client-id",
             client_secret="client-secret",
+            scope="scope",
         )
         assert_matches_type(str, auth, path=["response"])
 
@@ -72,6 +76,7 @@ class TestAsyncAuth:
         response = await async_client.auth.with_raw_response.generate_token(
             client_id="client-id",
             client_secret="client-secret",
+            scope="scope",
         )
 
         assert response.is_closed is True
@@ -85,6 +90,7 @@ class TestAsyncAuth:
         async with async_client.auth.with_streaming_response.generate_token(
             client_id="client-id",
             client_secret="client-secret",
+            scope="scope",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

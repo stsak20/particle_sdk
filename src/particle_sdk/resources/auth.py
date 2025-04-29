@@ -43,6 +43,7 @@ class AuthResource(SyncAPIResource):
         *,
         client_id: str,
         client_secret: str,
+        scope: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -63,7 +64,12 @@ class AuthResource(SyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {"Accept": "text/plain", **(extra_headers or {})}
-        extra_headers = {"client-id": client_id, "client-secret": client_secret, **(extra_headers or {})}
+        extra_headers = {
+            "client-id": client_id,
+            "client-secret": client_secret,
+            "scope": scope,
+            **(extra_headers or {}),
+        }
         return self._get(
             "/auth",
             options=make_request_options(
@@ -98,6 +104,7 @@ class AsyncAuthResource(AsyncAPIResource):
         *,
         client_id: str,
         client_secret: str,
+        scope: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -118,7 +125,12 @@ class AsyncAuthResource(AsyncAPIResource):
           timeout: Override the client-level default timeout for this request, in seconds
         """
         extra_headers = {"Accept": "text/plain", **(extra_headers or {})}
-        extra_headers = {"client-id": client_id, "client-secret": client_secret, **(extra_headers or {})}
+        extra_headers = {
+            "client-id": client_id,
+            "client-secret": client_secret,
+            "scope": scope,
+            **(extra_headers or {}),
+        }
         return await self._get(
             "/auth",
             options=make_request_options(
