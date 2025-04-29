@@ -4,6 +4,14 @@ from __future__ import annotations
 
 import httpx
 
+from .patient import (
+    PatientResource,
+    AsyncPatientResource,
+    PatientResourceWithRawResponse,
+    AsyncPatientResourceWithRawResponse,
+    PatientResourceWithStreamingResponse,
+    AsyncPatientResourceWithStreamingResponse,
+)
 from ...._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ...._utils import maybe_transform, async_maybe_transform
 from ...._compat import cached_property
@@ -23,6 +31,10 @@ __all__ = ["R4Resource", "AsyncR4Resource"]
 
 
 class R4Resource(SyncAPIResource):
+    @cached_property
+    def patient(self) -> PatientResource:
+        return PatientResource(self._client)
+
     @cached_property
     def with_raw_response(self) -> R4ResourceWithRawResponse:
         """
@@ -129,6 +141,10 @@ class R4Resource(SyncAPIResource):
 
 
 class AsyncR4Resource(AsyncAPIResource):
+    @cached_property
+    def patient(self) -> AsyncPatientResource:
+        return AsyncPatientResource(self._client)
+
     @cached_property
     def with_raw_response(self) -> AsyncR4ResourceWithRawResponse:
         """
@@ -245,6 +261,10 @@ class R4ResourceWithRawResponse:
             r4.search_resources,
         )
 
+    @cached_property
+    def patient(self) -> PatientResourceWithRawResponse:
+        return PatientResourceWithRawResponse(self._r4.patient)
+
 
 class AsyncR4ResourceWithRawResponse:
     def __init__(self, r4: AsyncR4Resource) -> None:
@@ -256,6 +276,10 @@ class AsyncR4ResourceWithRawResponse:
         self.search_resources = async_to_raw_response_wrapper(
             r4.search_resources,
         )
+
+    @cached_property
+    def patient(self) -> AsyncPatientResourceWithRawResponse:
+        return AsyncPatientResourceWithRawResponse(self._r4.patient)
 
 
 class R4ResourceWithStreamingResponse:
@@ -269,6 +293,10 @@ class R4ResourceWithStreamingResponse:
             r4.search_resources,
         )
 
+    @cached_property
+    def patient(self) -> PatientResourceWithStreamingResponse:
+        return PatientResourceWithStreamingResponse(self._r4.patient)
+
 
 class AsyncR4ResourceWithStreamingResponse:
     def __init__(self, r4: AsyncR4Resource) -> None:
@@ -280,3 +308,7 @@ class AsyncR4ResourceWithStreamingResponse:
         self.search_resources = async_to_streamed_response_wrapper(
             r4.search_resources,
         )
+
+    @cached_property
+    def patient(self) -> AsyncPatientResourceWithStreamingResponse:
+        return AsyncPatientResourceWithStreamingResponse(self._r4.patient)
