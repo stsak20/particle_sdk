@@ -8,14 +8,6 @@ from .auth import (
     AuthResourceWithStreamingResponse,
     AsyncAuthResourceWithStreamingResponse,
 )
-from .flat import (
-    FlatResource,
-    AsyncFlatResource,
-    FlatResourceWithRawResponse,
-    AsyncFlatResourceWithRawResponse,
-    FlatResourceWithStreamingResponse,
-    AsyncFlatResourceWithStreamingResponse,
-)
 from .files import (
     FilesResource,
     AsyncFilesResource,
@@ -108,10 +100,4 @@ __all__ = [
     "AsyncDeltasResourceWithRawResponse",
     "DeltasResourceWithStreamingResponse",
     "AsyncDeltasResourceWithStreamingResponse",
-    "FlatResource",
-    "AsyncFlatResource",
-    "FlatResourceWithRawResponse",
-    "AsyncFlatResourceWithRawResponse",
-    "FlatResourceWithStreamingResponse",
-    "AsyncFlatResourceWithStreamingResponse",
 ]

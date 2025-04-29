@@ -6,7 +6,6 @@ from .query import Query as Query
 from .patient import Patient as Patient
 from .document import Document as Document
 from .response_message import ResponseMessage as ResponseMessage
-from .flat_create_params import FlatCreateParams as FlatCreateParams
 from .delta_submit_params import DeltaSubmitParams as DeltaSubmitParams
 from .patient_list_params import PatientListParams as PatientListParams
 from .query_create_params import QueryCreateParams as QueryCreateParams
@@ -17,7 +16,6 @@ from .patient_search_params import PatientSearchParams as PatientSearchParams
 from .patient_submit_params import PatientSubmitParams as PatientSubmitParams
 from .document_submit_params import DocumentSubmitParams as DocumentSubmitParams
 from .patient_search_response import PatientSearchResponse as PatientSearchResponse
-from .flat_collect_data_params import FlatCollectDataParams as FlatCollectDataParams
 from .auth_generate_token_response import AuthGenerateTokenResponse as AuthGenerateTokenResponse
 from .document_get_patient_documents_response import (
     DocumentGetPatientDocumentsResponse as DocumentGetPatientDocumentsResponse,
