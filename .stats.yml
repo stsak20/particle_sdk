@@ -1,4 +1,4 @@
-configured_endpoints: 30
+configured_endpoints: 29
 openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/particle-health%2Fparticle_sdk-c8e5926f5c0a71c58d54c55c89ade68ec66f7581e38bf1f08f6a20902ad3f26f.yml
 openapi_spec_hash: 0dbf9880cf3dd9d442f234d0b46e01d4
-config_hash: 4eff7149efa77fcc29008dbee27a2bfd
+config_hash: 686966e52ee4f318178ab4df8bcc4746

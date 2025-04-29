@@ -1,13 +1,5 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from .api import (
-    APIResource,
-    AsyncAPIResource,
-    APIResourceWithRawResponse,
-    AsyncAPIResourceWithRawResponse,
-    APIResourceWithStreamingResponse,
-    AsyncAPIResourceWithStreamingResponse,
-)
 from .auth import (
     AuthResource,
     AsyncAuthResource,
@@ -24,6 +16,14 @@ from .flat import (
     FlatResourceWithStreamingResponse,
     AsyncFlatResourceWithStreamingResponse,
 )
+from .files import (
+    FilesResource,
+    AsyncFilesResource,
+    FilesResourceWithRawResponse,
+    AsyncFilesResourceWithRawResponse,
+    FilesResourceWithStreamingResponse,
+    AsyncFilesResourceWithStreamingResponse,
+)
 from .deltas import (
     DeltasResource,
     AsyncDeltasResource,
@@ -32,14 +32,70 @@ from .deltas import (
     DeltasResourceWithStreamingResponse,
     AsyncDeltasResourceWithStreamingResponse,
 )
+from .queries import (
+    QueriesResource,
+    AsyncQueriesResource,
+    QueriesResourceWithRawResponse,
+    AsyncQueriesResourceWithRawResponse,
+    QueriesResourceWithStreamingResponse,
+    AsyncQueriesResourceWithStreamingResponse,
+)
+from .patients import (
+    PatientsResource,
+    AsyncPatientsResource,
+    PatientsResourceWithRawResponse,
+    AsyncPatientsResourceWithRawResponse,
+    PatientsResourceWithStreamingResponse,
+    AsyncPatientsResourceWithStreamingResponse,
+)
+from .projects import (
+    ProjectsResource,
+    AsyncProjectsResource,
+    ProjectsResourceWithRawResponse,
+    AsyncProjectsResourceWithRawResponse,
+    ProjectsResourceWithStreamingResponse,
+    AsyncProjectsResourceWithStreamingResponse,
+)
+from .documents import (
+    DocumentsResource,
+    AsyncDocumentsResource,
+    DocumentsResourceWithRawResponse,
+    AsyncDocumentsResourceWithRawResponse,
+    DocumentsResourceWithStreamingResponse,
+    AsyncDocumentsResourceWithStreamingResponse,
+)
 
 __all__ = [
-    "APIResource",
-    "AsyncAPIResource",
-    "APIResourceWithRawResponse",
-    "AsyncAPIResourceWithRawResponse",
-    "APIResourceWithStreamingResponse",
-    "AsyncAPIResourceWithStreamingResponse",
+    "DocumentsResource",
+    "AsyncDocumentsResource",
+    "DocumentsResourceWithRawResponse",
+    "AsyncDocumentsResourceWithRawResponse",
+    "DocumentsResourceWithStreamingResponse",
+    "AsyncDocumentsResourceWithStreamingResponse",
+    "FilesResource",
+    "AsyncFilesResource",
+    "FilesResourceWithRawResponse",
+    "AsyncFilesResourceWithRawResponse",
+    "FilesResourceWithStreamingResponse",
+    "AsyncFilesResourceWithStreamingResponse",
+    "PatientsResource",
+    "AsyncPatientsResource",
+    "PatientsResourceWithRawResponse",
+    "AsyncPatientsResourceWithRawResponse",
+    "PatientsResourceWithStreamingResponse",
+    "AsyncPatientsResourceWithStreamingResponse",
+    "ProjectsResource",
+    "AsyncProjectsResource",
+    "ProjectsResourceWithRawResponse",
+    "AsyncProjectsResourceWithRawResponse",
+    "ProjectsResourceWithStreamingResponse",
+    "AsyncProjectsResourceWithStreamingResponse",
+    "QueriesResource",
+    "AsyncQueriesResource",
+    "QueriesResourceWithRawResponse",
+    "AsyncQueriesResourceWithRawResponse",
+    "QueriesResourceWithStreamingResponse",
+    "AsyncQueriesResourceWithStreamingResponse",
     "AuthResource",
     "AsyncAuthResource",
     "AuthResourceWithRawResponse",

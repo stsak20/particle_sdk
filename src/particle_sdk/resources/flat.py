@@ -17,8 +17,8 @@ from .._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
+from ..types.query import Query
 from .._base_client import make_request_options
-from ..types.api.v1.query import Query
 from ..types.deltas.datasets import Datasets
 
 __all__ = ["FlatResource", "AsyncFlatResource"]

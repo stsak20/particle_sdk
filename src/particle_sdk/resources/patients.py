@@ -6,22 +6,22 @@ from typing import List, Iterable
 
 import httpx
 
-from ...._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ...._utils import maybe_transform, async_maybe_transform
-from ...._compat import cached_property
-from ...._resource import SyncAPIResource, AsyncAPIResource
-from ...._response import (
+from ..types import patient_list_params, patient_search_params, patient_submit_params
+from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from .._utils import maybe_transform, async_maybe_transform
+from .._compat import cached_property
+from .._resource import SyncAPIResource, AsyncAPIResource
+from .._response import (
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ...._base_client import make_request_options
-from ....types.api.v1 import patient_list_params, patient_search_params, patient_submit_params
-from ....types.api.v1.patient import Patient
-from ....types.api.v1.response_message import ResponseMessage
-from ....types.api.v1.patient_list_response import PatientListResponse
-from ....types.api.v1.patient_search_response import PatientSearchResponse
+from .._base_client import make_request_options
+from ..types.patient import Patient
+from ..types.response_message import ResponseMessage
+from ..types.patient_list_response import PatientListResponse
+from ..types.patient_search_response import PatientSearchResponse
 
 __all__ = ["PatientsResource", "AsyncPatientsResource"]
 

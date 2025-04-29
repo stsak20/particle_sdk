@@ -4,8 +4,8 @@ from typing import List, Optional
 
 from pydantic import Field as FieldInfo
 
+from ..patient import Patient
 from ..._models import BaseModel
-from ..api.v1.patient import Patient
 
 __all__ = [
     "Datasets",

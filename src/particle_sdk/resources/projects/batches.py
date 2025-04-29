@@ -6,19 +6,19 @@ from typing import Mapping, cast
 
 import httpx
 
-from ....._types import NOT_GIVEN, Body, Query, Headers, NotGiven, FileTypes
-from ....._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
-from ....._compat import cached_property
-from ....._resource import SyncAPIResource, AsyncAPIResource
-from ....._response import (
+from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven, FileTypes
+from ..._utils import extract_files, maybe_transform, deepcopy_minimal, async_maybe_transform
+from ..._compat import cached_property
+from ..._resource import SyncAPIResource, AsyncAPIResource
+from ..._response import (
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ....._base_client import make_request_options
-from .....types.api.v1.projects import batch_create_params
-from .....types.api.v1.projects.batch import Batch
+from ..._base_client import make_request_options
+from ...types.projects import batch_create_params
+from ...types.projects.batch import Batch
 
 __all__ = ["BatchesResource", "AsyncBatchesResource"]
 

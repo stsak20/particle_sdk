@@ -72,26 +72,6 @@ class AuthResource(SyncAPIResource):
             cast_to=str,
         )
 
-    def generate_token_from_vim(
-        self,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> str:
-        """Generate a JSON Web Token (JWT) from a Vim session token."""
-        extra_headers = {"Accept": "text/plain", **(extra_headers or {})}
-        return self._get(
-            "/auth/vim",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=str,
-        )
-
 
 class AsyncAuthResource(AsyncAPIResource):
     @cached_property
@@ -147,26 +127,6 @@ class AsyncAuthResource(AsyncAPIResource):
             cast_to=str,
         )
 
-    async def generate_token_from_vim(
-        self,
-        *,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> str:
-        """Generate a JSON Web Token (JWT) from a Vim session token."""
-        extra_headers = {"Accept": "text/plain", **(extra_headers or {})}
-        return await self._get(
-            "/auth/vim",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=str,
-        )
-
 
 class AuthResourceWithRawResponse:
     def __init__(self, auth: AuthResource) -> None:
@@ -174,9 +134,6 @@ class AuthResourceWithRawResponse:
 
         self.generate_token = to_raw_response_wrapper(
             auth.generate_token,
-        )
-        self.generate_token_from_vim = to_raw_response_wrapper(
-            auth.generate_token_from_vim,
         )
 
 
@@ -187,9 +144,6 @@ class AsyncAuthResourceWithRawResponse:
         self.generate_token = async_to_raw_response_wrapper(
             auth.generate_token,
         )
-        self.generate_token_from_vim = async_to_raw_response_wrapper(
-            auth.generate_token_from_vim,
-        )
 
 
 class AuthResourceWithStreamingResponse:
@@ -199,9 +153,6 @@ class AuthResourceWithStreamingResponse:
         self.generate_token = to_streamed_response_wrapper(
             auth.generate_token,
         )
-        self.generate_token_from_vim = to_streamed_response_wrapper(
-            auth.generate_token_from_vim,
-        )
 
 
 class AsyncAuthResourceWithStreamingResponse:
@@ -210,7 +161,4 @@ class AsyncAuthResourceWithStreamingResponse:
 
         self.generate_token = async_to_streamed_response_wrapper(
             auth.generate_token,
-        )
-        self.generate_token_from_vim = async_to_streamed_response_wrapper(
-            auth.generate_token_from_vim,
         )

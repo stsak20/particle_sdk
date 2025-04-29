@@ -9,7 +9,7 @@ import pytest
 
 from tests.utils import assert_matches_type
 from particle_sdk import ParticleSDK, AsyncParticleSDK
-from particle_sdk.types.api.v1 import Query
+from particle_sdk.types import Query
 from particle_sdk.types.deltas import Datasets
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")

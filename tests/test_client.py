@@ -33,7 +33,7 @@ from particle_sdk._base_client import (
     BaseClient,
     make_request_options,
 )
-from particle_sdk.types.api.v1.document_submit_params import DocumentSubmitParams
+from particle_sdk.types.document_submit_params import DocumentSubmitParams
 
 from .utils import update_env
 
@@ -562,6 +562,16 @@ class TestParticleSDK:
             client = ParticleSDK(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
+        # explicit environment arg requires explicitness
+        with update_env(PARTICLE_SDK_BASE_URL="http://localhost:5000/from/env"):
+            with pytest.raises(ValueError, match=r"you must pass base_url=None"):
+                ParticleSDK(api_key=api_key, _strict_response_validation=True, environment="sandbox")
+
+            client = ParticleSDK(
+                base_url=None, api_key=api_key, _strict_response_validation=True, environment="sandbox"
+            )
+            assert str(client.base_url).startswith("https://sandbox.particlehealth.com")
+
     @pytest.mark.parametrize(
         "client",
         [
@@ -781,7 +791,7 @@ class TestParticleSDK:
 
         respx_mock.post("/api/v1/documents").mock(side_effect=retry_handler)
 
-        response = client.api.v1.documents.with_raw_response.submit(file=b"raw file contents", metadata="metadata")
+        response = client.documents.with_raw_response.submit(file=b"raw file contents", metadata="metadata")
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -805,7 +815,7 @@ class TestParticleSDK:
 
         respx_mock.post("/api/v1/documents").mock(side_effect=retry_handler)
 
-        response = client.api.v1.documents.with_raw_response.submit(
+        response = client.documents.with_raw_response.submit(
             file=b"raw file contents", metadata="metadata", extra_headers={"x-stainless-retry-count": Omit()}
         )
 
@@ -830,7 +840,7 @@ class TestParticleSDK:
 
         respx_mock.post("/api/v1/documents").mock(side_effect=retry_handler)
 
-        response = client.api.v1.documents.with_raw_response.submit(
+        response = client.documents.with_raw_response.submit(
             file=b"raw file contents", metadata="metadata", extra_headers={"x-stainless-retry-count": "42"}
         )
 
@@ -1342,6 +1352,16 @@ class TestAsyncParticleSDK:
             client = AsyncParticleSDK(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
+        # explicit environment arg requires explicitness
+        with update_env(PARTICLE_SDK_BASE_URL="http://localhost:5000/from/env"):
+            with pytest.raises(ValueError, match=r"you must pass base_url=None"):
+                AsyncParticleSDK(api_key=api_key, _strict_response_validation=True, environment="sandbox")
+
+            client = AsyncParticleSDK(
+                base_url=None, api_key=api_key, _strict_response_validation=True, environment="sandbox"
+            )
+            assert str(client.base_url).startswith("https://sandbox.particlehealth.com")
+
     @pytest.mark.parametrize(
         "client",
         [
@@ -1566,9 +1586,7 @@ class TestAsyncParticleSDK:
 
         respx_mock.post("/api/v1/documents").mock(side_effect=retry_handler)
 
-        response = await client.api.v1.documents.with_raw_response.submit(
-            file=b"raw file contents", metadata="metadata"
-        )
+        response = await client.documents.with_raw_response.submit(file=b"raw file contents", metadata="metadata")
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -1593,7 +1611,7 @@ class TestAsyncParticleSDK:
 
         respx_mock.post("/api/v1/documents").mock(side_effect=retry_handler)
 
-        response = await client.api.v1.documents.with_raw_response.submit(
+        response = await client.documents.with_raw_response.submit(
             file=b"raw file contents", metadata="metadata", extra_headers={"x-stainless-retry-count": Omit()}
         )
 
@@ -1619,7 +1637,7 @@ class TestAsyncParticleSDK:
 
         respx_mock.post("/api/v1/documents").mock(side_effect=retry_handler)
 
-        response = await client.api.v1.documents.with_raw_response.submit(
+        response = await client.documents.with_raw_response.submit(
             file=b"raw file contents", metadata="metadata", extra_headers={"x-stainless-retry-count": "42"}
         )
 

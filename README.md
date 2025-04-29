@@ -32,9 +32,11 @@ from particle_sdk import ParticleSDK
 
 client = ParticleSDK(
     api_key=os.environ.get("PARTICLE_SDK_API_KEY"),  # This is the default and can be omitted
+    # defaults to "sandbox".
+    environment="production",
 )
 
-document = client.api.v1.documents.submit(
+document = client.documents.submit(
     file=b"REPLACE_ME",
     metadata="REPLACE_ME",
 )
@@ -57,11 +59,13 @@ from particle_sdk import AsyncParticleSDK
 
 client = AsyncParticleSDK(
     api_key=os.environ.get("PARTICLE_SDK_API_KEY"),  # This is the default and can be omitted
+    # defaults to "sandbox".
+    environment="production",
 )
 
 
 async def main() -> None:
-    document = await client.api.v1.documents.submit(
+    document = await client.documents.submit(
         file=b"REPLACE_ME",
         metadata="REPLACE_ME",
     )
@@ -92,7 +96,7 @@ from particle_sdk import ParticleSDK
 
 client = ParticleSDK()
 
-client.api.v1.documents.submit(
+client.documents.submit(
     file=Path("/path/to/file"),
     metadata="metadata",
 )
@@ -116,7 +120,7 @@ from particle_sdk import ParticleSDK
 client = ParticleSDK()
 
 try:
-    client.api.v1.documents.submit(
+    client.documents.submit(
         file=b"REPLACE_ME",
         metadata="REPLACE_ME",
     )
@@ -162,7 +166,7 @@ client = ParticleSDK(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).api.v1.documents.submit(
+client.with_options(max_retries=5).documents.submit(
     file=b"REPLACE_ME",
     metadata="REPLACE_ME",
 )
@@ -188,7 +192,7 @@ client = ParticleSDK(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).api.v1.documents.submit(
+client.with_options(timeout=5.0).documents.submit(
     file=b"REPLACE_ME",
     metadata="REPLACE_ME",
 )
@@ -232,13 +236,13 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from particle_sdk import ParticleSDK
 
 client = ParticleSDK()
-response = client.api.v1.documents.with_raw_response.submit(
+response = client.documents.with_raw_response.submit(
     file=b"REPLACE_ME",
     metadata="REPLACE_ME",
 )
 print(response.headers.get('X-My-Header'))
 
-document = response.parse()  # get the object that `api.v1.documents.submit()` would have returned
+document = response.parse()  # get the object that `documents.submit()` would have returned
 print(document.document_id)
 ```
 
@@ -253,7 +257,7 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.api.v1.documents.with_streaming_response.submit(
+with client.documents.with_streaming_response.submit(
     file=b"REPLACE_ME",
     metadata="REPLACE_ME",
 ) as response:
