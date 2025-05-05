@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.1.0-alpha.3 (2025-04-29)
+
+Full Changelog: [v0.1.0-alpha.2...v0.1.0-alpha.3](https://github.com/stsak20/particle_sdk/compare/v0.1.0-alpha.2...v0.1.0-alpha.3)
+
+### Features
+
+* **api:** manual updates ([12ca7bc](https://github.com/stsak20/particle_sdk/commit/12ca7bcc40e4094a74e42a777046a03c3a0151cb))
+* **api:** manual updates ([f6c98a8](https://github.com/stsak20/particle_sdk/commit/f6c98a855fecd9a7c2b94b1365fd84ab0b74e7fd))
+
+
+### Bug Fixes
+
+* **api:** updated /deltas/R4/Patient/{particle_patient_id}/$everything endpoint ([b8a5ae0](https://github.com/stsak20/particle_sdk/commit/b8a5ae0c3a7b17c7db8271b933f9bd63602087f5))
+
+
+### Chores
+
+* **internal:** codegen related update ([bdac09d](https://github.com/stsak20/particle_sdk/commit/bdac09d39be80753a718b24d0b807d36535bc927))
+
 ## 0.1.0-alpha.2 (2025-04-29)
 
 Full Changelog: [v0.1.0-alpha.1...v0.1.0-alpha.2](https://github.com/stsak20/particle_sdk/compare/v0.1.0-alpha.1...v0.1.0-alpha.2)

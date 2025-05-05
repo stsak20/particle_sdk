@@ -87,7 +87,7 @@ class PatientResource(SyncAPIResource):
                 f"Expected a non-empty value for `particle_patient_id` but received {particle_patient_id!r}"
             )
         return self._get(
-            f"/deltas/R4/Patient/{particle_patient_id}/everything",
+            f"/deltas/R4/Patient/{particle_patient_id}/$everything",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
@@ -175,7 +175,7 @@ class AsyncPatientResource(AsyncAPIResource):
                 f"Expected a non-empty value for `particle_patient_id` but received {particle_patient_id!r}"
             )
         return await self._get(
-            f"/deltas/R4/Patient/{particle_patient_id}/everything",
+            f"/deltas/R4/Patient/{particle_patient_id}/$everything",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
