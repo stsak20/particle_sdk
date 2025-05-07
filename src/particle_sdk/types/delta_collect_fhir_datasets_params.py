@@ -4,10 +4,10 @@ from __future__ import annotations
 
 from typing_extensions import TypedDict
 
-__all__ = ["PatientCollectDatasetsParams"]
+__all__ = ["DeltaCollectFhirDatasetsParams"]
 
 
-class PatientCollectDatasetsParams(TypedDict, total=False):
+class DeltaCollectFhirDatasetsParams(TypedDict, total=False):
     _count: int
     """Maximum number of results per page"""
 

@@ -4,11 +4,11 @@ from typing import List, Optional
 
 from pydantic import Field as FieldInfo
 
-from ..patient import Patient
-from ..._models import BaseModel
+from .patient import Patient
+from .._models import BaseModel
 
 __all__ = [
-    "Datasets",
+    "DeltaRetrieveResourceResponse",
     "Allergy",
     "Composition",
     "Coverage",
@@ -655,7 +655,7 @@ class VitalSign(BaseModel):
     vital_sign_observation_value: Optional[float] = None
 
 
-class Datasets(BaseModel):
+class DeltaRetrieveResourceResponse(BaseModel):
     allergies: Optional[List[Allergy]] = None
 
     composition: Optional[List[Composition]] = None

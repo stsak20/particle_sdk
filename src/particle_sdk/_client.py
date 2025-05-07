@@ -13,7 +13,6 @@ from ._qs import Querystring
 from ._types import (
     NOT_GIVEN,
     Omit,
-    Headers,
     Timeout,
     NotGiven,
     Transport,
@@ -22,7 +21,7 @@ from ._types import (
 )
 from ._utils import is_given, get_async_library
 from ._version import __version__
-from .resources import auth, files, queries, patients, documents
+from .resources import auth, files, deltas, queries, patients, documents
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError
 from ._base_client import (
@@ -30,7 +29,6 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
-from .resources.deltas import deltas
 from .resources.projects import projects
 
 __all__ = [
@@ -63,14 +61,14 @@ class ParticleSDK(SyncAPIClient):
     with_streaming_response: ParticleSDKWithStreamedResponse
 
     # client options
-    api_key: str | None
+    jwt_token: str
 
     _environment: Literal["sandbox", "production"] | NotGiven
 
     def __init__(
         self,
         *,
-        api_key: str | None = None,
+        jwt_token: str,
         environment: Literal["sandbox", "production"] | NotGiven = NOT_GIVEN,
         base_url: str | httpx.URL | None | NotGiven = NOT_GIVEN,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
@@ -91,13 +89,8 @@ class ParticleSDK(SyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new synchronous ParticleSDK client instance.
-
-        This automatically infers the `api_key` argument from the `PARTICLE_SDK_API_KEY` environment variable if it is not provided.
-        """
-        if api_key is None:
-            api_key = os.environ.get("PARTICLE_SDK_API_KEY")
-        self.api_key = api_key
+        """Construct a new synchronous ParticleSDK client instance."""
+        self.jwt_token = jwt_token
 
         self._environment = environment
 
@@ -154,10 +147,8 @@ class ParticleSDK(SyncAPIClient):
     @property
     @override
     def auth_headers(self) -> dict[str, str]:
-        api_key = self.api_key
-        if api_key is None:
-            return {}
-        return {"Authorization": api_key}
+        jwt_token = self.jwt_token
+        return {"Authorization": f"Bearer {jwt_token}"}
 
     @property
     @override
@@ -168,21 +159,10 @@ class ParticleSDK(SyncAPIClient):
             **self._custom_headers,
         }
 
-    @override
-    def _validate_headers(self, headers: Headers, custom_headers: Headers) -> None:
-        if self.api_key and headers.get("Authorization"):
-            return
-        if isinstance(custom_headers.get("Authorization"), Omit):
-            return
-
-        raise TypeError(
-            '"Could not resolve authentication method. Expected the api_key to be set. Or for the `Authorization` headers to be explicitly omitted"'
-        )
-
     def copy(
         self,
         *,
-        api_key: str | None = None,
+        jwt_token: str | None = None,
         environment: Literal["sandbox", "production"] | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
@@ -217,7 +197,7 @@ class ParticleSDK(SyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
-            api_key=api_key or self.api_key,
+            jwt_token=jwt_token or self.jwt_token,
             base_url=base_url or self.base_url,
             environment=environment or self._environment,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
@@ -278,14 +258,14 @@ class AsyncParticleSDK(AsyncAPIClient):
     with_streaming_response: AsyncParticleSDKWithStreamedResponse
 
     # client options
-    api_key: str | None
+    jwt_token: str
 
     _environment: Literal["sandbox", "production"] | NotGiven
 
     def __init__(
         self,
         *,
-        api_key: str | None = None,
+        jwt_token: str,
         environment: Literal["sandbox", "production"] | NotGiven = NOT_GIVEN,
         base_url: str | httpx.URL | None | NotGiven = NOT_GIVEN,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
@@ -306,13 +286,8 @@ class AsyncParticleSDK(AsyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new async AsyncParticleSDK client instance.
-
-        This automatically infers the `api_key` argument from the `PARTICLE_SDK_API_KEY` environment variable if it is not provided.
-        """
-        if api_key is None:
-            api_key = os.environ.get("PARTICLE_SDK_API_KEY")
-        self.api_key = api_key
+        """Construct a new async AsyncParticleSDK client instance."""
+        self.jwt_token = jwt_token
 
         self._environment = environment
 
@@ -369,10 +344,8 @@ class AsyncParticleSDK(AsyncAPIClient):
     @property
     @override
     def auth_headers(self) -> dict[str, str]:
-        api_key = self.api_key
-        if api_key is None:
-            return {}
-        return {"Authorization": api_key}
+        jwt_token = self.jwt_token
+        return {"Authorization": f"Bearer {jwt_token}"}
 
     @property
     @override
@@ -383,21 +356,10 @@ class AsyncParticleSDK(AsyncAPIClient):
             **self._custom_headers,
         }
 
-    @override
-    def _validate_headers(self, headers: Headers, custom_headers: Headers) -> None:
-        if self.api_key and headers.get("Authorization"):
-            return
-        if isinstance(custom_headers.get("Authorization"), Omit):
-            return
-
-        raise TypeError(
-            '"Could not resolve authentication method. Expected the api_key to be set. Or for the `Authorization` headers to be explicitly omitted"'
-        )
-
     def copy(
         self,
         *,
-        api_key: str | None = None,
+        jwt_token: str | None = None,
         environment: Literal["sandbox", "production"] | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
@@ -432,7 +394,7 @@ class AsyncParticleSDK(AsyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
-            api_key=api_key or self.api_key,
+            jwt_token=jwt_token or self.jwt_token,
             base_url=base_url or self.base_url,
             environment=environment or self._environment,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
