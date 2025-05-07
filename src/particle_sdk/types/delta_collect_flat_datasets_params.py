@@ -4,9 +4,9 @@ from __future__ import annotations
 
 from typing_extensions import TypedDict
 
-__all__ = ["FlatCollectDatasetsParams"]
+__all__ = ["DeltaCollectFlatDatasetsParams"]
 
 
-class FlatCollectDatasetsParams(TypedDict, total=False):
+class DeltaCollectFlatDatasetsParams(TypedDict, total=False):
     _since: str
     """Resources updated after this time will be included"""
