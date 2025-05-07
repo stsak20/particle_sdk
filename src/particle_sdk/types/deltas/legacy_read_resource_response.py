@@ -6,7 +6,7 @@ from pydantic import Field as FieldInfo
 
 from ..._models import BaseModel
 
-__all__ = ["R4ReadResourceResponse", "Address", "Name", "Identifier", "IdentifierType", "Telecom"]
+__all__ = ["LegacyReadResourceResponse", "Address", "Name", "Identifier", "IdentifierType", "Telecom"]
 
 
 class Address(BaseModel):
@@ -57,7 +57,7 @@ class Telecom(BaseModel):
     """
 
 
-class R4ReadResourceResponse(BaseModel):
+class LegacyReadResourceResponse(BaseModel):
     address: List[Address]
     """The person's home address."""
 

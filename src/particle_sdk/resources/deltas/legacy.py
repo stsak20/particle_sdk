@@ -15,79 +15,37 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.deltas import flat_collect_datasets_params
-from ...types.deltas.datasets import Datasets
+from ...types.deltas import legacy_search_resources_params
+from ...types.deltas.legacy_read_resource_response import LegacyReadResourceResponse
+from ...types.deltas.legacy_search_resources_response import LegacySearchResourcesResponse
 
-__all__ = ["FlatResource", "AsyncFlatResource"]
+__all__ = ["LegacyResource", "AsyncLegacyResource"]
 
 
-class FlatResource(SyncAPIResource):
+class LegacyResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> FlatResourceWithRawResponse:
+    def with_raw_response(self) -> LegacyResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/stsak20/particle_sdk#accessing-raw-response-data-eg-headers
         """
-        return FlatResourceWithRawResponse(self)
+        return LegacyResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> FlatResourceWithStreamingResponse:
+    def with_streaming_response(self) -> LegacyResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/stsak20/particle_sdk#with_streaming_response
         """
-        return FlatResourceWithStreamingResponse(self)
+        return LegacyResourceWithStreamingResponse(self)
 
-    def collect_datasets(
-        self,
-        particle_patient_id: str,
-        *,
-        _since: str | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Datasets:
-        """
-        Collect Deltas Flat Datasets
-
-        Args:
-          _since: Resources updated after this time will be included
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not particle_patient_id:
-            raise ValueError(
-                f"Expected a non-empty value for `particle_patient_id` but received {particle_patient_id!r}"
-            )
-        return self._get(
-            f"/deltas/flat/{particle_patient_id}",
-            options=make_request_options(
-                extra_headers=extra_headers,
-                extra_query=extra_query,
-                extra_body=extra_body,
-                timeout=timeout,
-                query=maybe_transform({"_since": _since}, flat_collect_datasets_params.FlatCollectDatasetsParams),
-            ),
-            cast_to=Datasets,
-        )
-
-    def get_resource(
+    def read_resource(
         self,
         resource_id: str,
         *,
-        particle_patient_id: str,
         resource_type: str,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -95,9 +53,9 @@ class FlatResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Datasets:
+    ) -> LegacyReadResourceResponse:
         """
-        Get Deltas Flat Resource
+        Read a specified FHIR resource.
 
         Args:
           extra_headers: Send extra headers
@@ -108,60 +66,38 @@ class FlatResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not particle_patient_id:
-            raise ValueError(
-                f"Expected a non-empty value for `particle_patient_id` but received {particle_patient_id!r}"
-            )
         if not resource_type:
             raise ValueError(f"Expected a non-empty value for `resource_type` but received {resource_type!r}")
         if not resource_id:
             raise ValueError(f"Expected a non-empty value for `resource_id` but received {resource_id!r}")
         return self._get(
-            f"/deltas/flat/{particle_patient_id}/{resource_type}/{resource_id}",
+            f"/deltas/R4/{resource_type}/{resource_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Datasets,
+            cast_to=LegacyReadResourceResponse,
         )
 
-
-class AsyncFlatResource(AsyncAPIResource):
-    @cached_property
-    def with_raw_response(self) -> AsyncFlatResourceWithRawResponse:
-        """
-        This property can be used as a prefix for any HTTP method call to return
-        the raw response object instead of the parsed content.
-
-        For more information, see https://www.github.com/stsak20/particle_sdk#accessing-raw-response-data-eg-headers
-        """
-        return AsyncFlatResourceWithRawResponse(self)
-
-    @cached_property
-    def with_streaming_response(self) -> AsyncFlatResourceWithStreamingResponse:
-        """
-        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
-
-        For more information, see https://www.github.com/stsak20/particle_sdk#with_streaming_response
-        """
-        return AsyncFlatResourceWithStreamingResponse(self)
-
-    async def collect_datasets(
+    def search_resources(
         self,
-        particle_patient_id: str,
+        resource_type: str,
         *,
-        _since: str | NotGiven = NOT_GIVEN,
+        person: str,
+        _last_updated: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Datasets:
+    ) -> LegacySearchResourcesResponse:
         """
-        Collect Deltas Flat Datasets
+        Search for FHIR resources.
 
         Args:
-          _since: Resources updated after this time will be included
+          person: Particle Patient ID
+
+          _last_updated: Resources updated after this time will be included
 
           extra_headers: Send extra headers
 
@@ -171,109 +107,176 @@ class AsyncFlatResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not particle_patient_id:
-            raise ValueError(
-                f"Expected a non-empty value for `particle_patient_id` but received {particle_patient_id!r}"
-            )
+        if not resource_type:
+            raise ValueError(f"Expected a non-empty value for `resource_type` but received {resource_type!r}")
+        return self._get(
+            f"/deltas/R4/{resource_type}",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "person": person,
+                        "_last_updated": _last_updated,
+                    },
+                    legacy_search_resources_params.LegacySearchResourcesParams,
+                ),
+            ),
+            cast_to=LegacySearchResourcesResponse,
+        )
+
+
+class AsyncLegacyResource(AsyncAPIResource):
+    @cached_property
+    def with_raw_response(self) -> AsyncLegacyResourceWithRawResponse:
+        """
+        This property can be used as a prefix for any HTTP method call to return
+        the raw response object instead of the parsed content.
+
+        For more information, see https://www.github.com/stsak20/particle_sdk#accessing-raw-response-data-eg-headers
+        """
+        return AsyncLegacyResourceWithRawResponse(self)
+
+    @cached_property
+    def with_streaming_response(self) -> AsyncLegacyResourceWithStreamingResponse:
+        """
+        An alternative to `.with_raw_response` that doesn't eagerly read the response body.
+
+        For more information, see https://www.github.com/stsak20/particle_sdk#with_streaming_response
+        """
+        return AsyncLegacyResourceWithStreamingResponse(self)
+
+    async def read_resource(
+        self,
+        resource_id: str,
+        *,
+        resource_type: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> LegacyReadResourceResponse:
+        """
+        Read a specified FHIR resource.
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not resource_type:
+            raise ValueError(f"Expected a non-empty value for `resource_type` but received {resource_type!r}")
+        if not resource_id:
+            raise ValueError(f"Expected a non-empty value for `resource_id` but received {resource_id!r}")
         return await self._get(
-            f"/deltas/flat/{particle_patient_id}",
+            f"/deltas/R4/{resource_type}/{resource_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=LegacyReadResourceResponse,
+        )
+
+    async def search_resources(
+        self,
+        resource_type: str,
+        *,
+        person: str,
+        _last_updated: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> LegacySearchResourcesResponse:
+        """
+        Search for FHIR resources.
+
+        Args:
+          person: Particle Patient ID
+
+          _last_updated: Resources updated after this time will be included
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not resource_type:
+            raise ValueError(f"Expected a non-empty value for `resource_type` but received {resource_type!r}")
+        return await self._get(
+            f"/deltas/R4/{resource_type}",
             options=make_request_options(
                 extra_headers=extra_headers,
                 extra_query=extra_query,
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"_since": _since}, flat_collect_datasets_params.FlatCollectDatasetsParams
+                    {
+                        "person": person,
+                        "_last_updated": _last_updated,
+                    },
+                    legacy_search_resources_params.LegacySearchResourcesParams,
                 ),
             ),
-            cast_to=Datasets,
-        )
-
-    async def get_resource(
-        self,
-        resource_id: str,
-        *,
-        particle_patient_id: str,
-        resource_type: str,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Datasets:
-        """
-        Get Deltas Flat Resource
-
-        Args:
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not particle_patient_id:
-            raise ValueError(
-                f"Expected a non-empty value for `particle_patient_id` but received {particle_patient_id!r}"
-            )
-        if not resource_type:
-            raise ValueError(f"Expected a non-empty value for `resource_type` but received {resource_type!r}")
-        if not resource_id:
-            raise ValueError(f"Expected a non-empty value for `resource_id` but received {resource_id!r}")
-        return await self._get(
-            f"/deltas/flat/{particle_patient_id}/{resource_type}/{resource_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=Datasets,
+            cast_to=LegacySearchResourcesResponse,
         )
 
 
-class FlatResourceWithRawResponse:
-    def __init__(self, flat: FlatResource) -> None:
-        self._flat = flat
+class LegacyResourceWithRawResponse:
+    def __init__(self, legacy: LegacyResource) -> None:
+        self._legacy = legacy
 
-        self.collect_datasets = to_raw_response_wrapper(
-            flat.collect_datasets,
+        self.read_resource = to_raw_response_wrapper(
+            legacy.read_resource,
         )
-        self.get_resource = to_raw_response_wrapper(
-            flat.get_resource,
-        )
-
-
-class AsyncFlatResourceWithRawResponse:
-    def __init__(self, flat: AsyncFlatResource) -> None:
-        self._flat = flat
-
-        self.collect_datasets = async_to_raw_response_wrapper(
-            flat.collect_datasets,
-        )
-        self.get_resource = async_to_raw_response_wrapper(
-            flat.get_resource,
+        self.search_resources = to_raw_response_wrapper(
+            legacy.search_resources,
         )
 
 
-class FlatResourceWithStreamingResponse:
-    def __init__(self, flat: FlatResource) -> None:
-        self._flat = flat
+class AsyncLegacyResourceWithRawResponse:
+    def __init__(self, legacy: AsyncLegacyResource) -> None:
+        self._legacy = legacy
 
-        self.collect_datasets = to_streamed_response_wrapper(
-            flat.collect_datasets,
+        self.read_resource = async_to_raw_response_wrapper(
+            legacy.read_resource,
         )
-        self.get_resource = to_streamed_response_wrapper(
-            flat.get_resource,
+        self.search_resources = async_to_raw_response_wrapper(
+            legacy.search_resources,
         )
 
 
-class AsyncFlatResourceWithStreamingResponse:
-    def __init__(self, flat: AsyncFlatResource) -> None:
-        self._flat = flat
+class LegacyResourceWithStreamingResponse:
+    def __init__(self, legacy: LegacyResource) -> None:
+        self._legacy = legacy
 
-        self.collect_datasets = async_to_streamed_response_wrapper(
-            flat.collect_datasets,
+        self.read_resource = to_streamed_response_wrapper(
+            legacy.read_resource,
         )
-        self.get_resource = async_to_streamed_response_wrapper(
-            flat.get_resource,
+        self.search_resources = to_streamed_response_wrapper(
+            legacy.search_resources,
+        )
+
+
+class AsyncLegacyResourceWithStreamingResponse:
+    def __init__(self, legacy: AsyncLegacyResource) -> None:
+        self._legacy = legacy
+
+        self.read_resource = async_to_streamed_response_wrapper(
+            legacy.read_resource,
+        )
+        self.search_resources = async_to_streamed_response_wrapper(
+            legacy.search_resources,
         )

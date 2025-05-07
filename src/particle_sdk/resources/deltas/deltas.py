@@ -6,23 +6,15 @@ from typing import List
 
 import httpx
 
-from .flat import (
-    FlatResource,
-    AsyncFlatResource,
-    FlatResourceWithRawResponse,
-    AsyncFlatResourceWithRawResponse,
-    FlatResourceWithStreamingResponse,
-    AsyncFlatResourceWithStreamingResponse,
+from .legacy import (
+    LegacyResource,
+    AsyncLegacyResource,
+    LegacyResourceWithRawResponse,
+    AsyncLegacyResourceWithRawResponse,
+    LegacyResourceWithStreamingResponse,
+    AsyncLegacyResourceWithStreamingResponse,
 )
-from .r4.r4 import (
-    R4Resource,
-    AsyncR4Resource,
-    R4ResourceWithRawResponse,
-    AsyncR4ResourceWithRawResponse,
-    R4ResourceWithStreamingResponse,
-    AsyncR4ResourceWithStreamingResponse,
-)
-from ...types import delta_submit_params
+from ...types import delta_submit_params, delta_collect_datasets_params, delta_collect_flat_datasets_params
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import maybe_transform, async_maybe_transform
 from ..._compat import cached_property
@@ -36,18 +28,17 @@ from ..._response import (
 from ...types.query import Query
 from ..._base_client import make_request_options
 from ...types.delta_submit_response import DeltaSubmitResponse
+from ...types.delta_collect_datasets_response import DeltaCollectDatasetsResponse
+from ...types.delta_retrieve_resource_response import DeltaRetrieveResourceResponse
+from ...types.delta_collect_flat_datasets_response import DeltaCollectFlatDatasetsResponse
 
 __all__ = ["DeltasResource", "AsyncDeltasResource"]
 
 
 class DeltasResource(SyncAPIResource):
     @cached_property
-    def r4(self) -> R4Resource:
-        return R4Resource(self._client)
-
-    @cached_property
-    def flat(self) -> FlatResource:
-        return FlatResource(self._client)
+    def legacy(self) -> LegacyResource:
+        return LegacyResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> DeltasResourceWithRawResponse:
@@ -67,6 +58,158 @@ class DeltasResource(SyncAPIResource):
         For more information, see https://www.github.com/stsak20/particle_sdk#with_streaming_response
         """
         return DeltasResourceWithStreamingResponse(self)
+
+    def collect_datasets(
+        self,
+        particle_patient_id: str,
+        *,
+        _count: int | NotGiven = NOT_GIVEN,
+        _since: str | NotGiven = NOT_GIVEN,
+        _type: str | NotGiven = NOT_GIVEN,
+        end: str | NotGiven = NOT_GIVEN,
+        page_token: str | NotGiven = NOT_GIVEN,
+        start: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> DeltaCollectDatasetsResponse:
+        """
+        Collect Deltas FHIR Datasets
+
+        Args:
+          _count: Maximum number of results per page
+
+          _since: Resources updated after this time will be included
+
+          _type: Comma-delimited FHIR resource types
+
+          end: End date
+
+          page_token: Token for next or previous page
+
+          start: Start date
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not particle_patient_id:
+            raise ValueError(
+                f"Expected a non-empty value for `particle_patient_id` but received {particle_patient_id!r}"
+            )
+        return self._get(
+            f"/deltas/R4/Patient/{particle_patient_id}/$everything",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "_count": _count,
+                        "_since": _since,
+                        "_type": _type,
+                        "end": end,
+                        "page_token": page_token,
+                        "start": start,
+                    },
+                    delta_collect_datasets_params.DeltaCollectDatasetsParams,
+                ),
+            ),
+            cast_to=DeltaCollectDatasetsResponse,
+        )
+
+    def collect_flat_datasets(
+        self,
+        particle_patient_id: str,
+        *,
+        _since: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> DeltaCollectFlatDatasetsResponse:
+        """
+        Collect Deltas Flat Datasets
+
+        Args:
+          _since: Resources updated after this time will be included
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not particle_patient_id:
+            raise ValueError(
+                f"Expected a non-empty value for `particle_patient_id` but received {particle_patient_id!r}"
+            )
+        return self._get(
+            f"/deltas/flat/{particle_patient_id}",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {"_since": _since}, delta_collect_flat_datasets_params.DeltaCollectFlatDatasetsParams
+                ),
+            ),
+            cast_to=DeltaCollectFlatDatasetsResponse,
+        )
+
+    def retrieve_resource(
+        self,
+        resource_id: str,
+        *,
+        particle_patient_id: str,
+        resource_type: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> DeltaRetrieveResourceResponse:
+        """
+        Get Deltas Flat Resource
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not particle_patient_id:
+            raise ValueError(
+                f"Expected a non-empty value for `particle_patient_id` but received {particle_patient_id!r}"
+            )
+        if not resource_type:
+            raise ValueError(f"Expected a non-empty value for `resource_type` but received {resource_type!r}")
+        if not resource_id:
+            raise ValueError(f"Expected a non-empty value for `resource_id` but received {resource_id!r}")
+        return self._get(
+            f"/deltas/flat/{particle_patient_id}/{resource_type}/{resource_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=DeltaRetrieveResourceResponse,
+        )
 
     def retrieve_status(
         self,
@@ -166,12 +309,8 @@ class DeltasResource(SyncAPIResource):
 
 class AsyncDeltasResource(AsyncAPIResource):
     @cached_property
-    def r4(self) -> AsyncR4Resource:
-        return AsyncR4Resource(self._client)
-
-    @cached_property
-    def flat(self) -> AsyncFlatResource:
-        return AsyncFlatResource(self._client)
+    def legacy(self) -> AsyncLegacyResource:
+        return AsyncLegacyResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncDeltasResourceWithRawResponse:
@@ -191,6 +330,158 @@ class AsyncDeltasResource(AsyncAPIResource):
         For more information, see https://www.github.com/stsak20/particle_sdk#with_streaming_response
         """
         return AsyncDeltasResourceWithStreamingResponse(self)
+
+    async def collect_datasets(
+        self,
+        particle_patient_id: str,
+        *,
+        _count: int | NotGiven = NOT_GIVEN,
+        _since: str | NotGiven = NOT_GIVEN,
+        _type: str | NotGiven = NOT_GIVEN,
+        end: str | NotGiven = NOT_GIVEN,
+        page_token: str | NotGiven = NOT_GIVEN,
+        start: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> DeltaCollectDatasetsResponse:
+        """
+        Collect Deltas FHIR Datasets
+
+        Args:
+          _count: Maximum number of results per page
+
+          _since: Resources updated after this time will be included
+
+          _type: Comma-delimited FHIR resource types
+
+          end: End date
+
+          page_token: Token for next or previous page
+
+          start: Start date
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not particle_patient_id:
+            raise ValueError(
+                f"Expected a non-empty value for `particle_patient_id` but received {particle_patient_id!r}"
+            )
+        return await self._get(
+            f"/deltas/R4/Patient/{particle_patient_id}/$everything",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "_count": _count,
+                        "_since": _since,
+                        "_type": _type,
+                        "end": end,
+                        "page_token": page_token,
+                        "start": start,
+                    },
+                    delta_collect_datasets_params.DeltaCollectDatasetsParams,
+                ),
+            ),
+            cast_to=DeltaCollectDatasetsResponse,
+        )
+
+    async def collect_flat_datasets(
+        self,
+        particle_patient_id: str,
+        *,
+        _since: str | NotGiven = NOT_GIVEN,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> DeltaCollectFlatDatasetsResponse:
+        """
+        Collect Deltas Flat Datasets
+
+        Args:
+          _since: Resources updated after this time will be included
+
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not particle_patient_id:
+            raise ValueError(
+                f"Expected a non-empty value for `particle_patient_id` but received {particle_patient_id!r}"
+            )
+        return await self._get(
+            f"/deltas/flat/{particle_patient_id}",
+            options=make_request_options(
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"_since": _since}, delta_collect_flat_datasets_params.DeltaCollectFlatDatasetsParams
+                ),
+            ),
+            cast_to=DeltaCollectFlatDatasetsResponse,
+        )
+
+    async def retrieve_resource(
+        self,
+        resource_id: str,
+        *,
+        particle_patient_id: str,
+        resource_type: str,
+        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
+        # The extra values given here take precedence over values defined on the client or passed to this method.
+        extra_headers: Headers | None = None,
+        extra_query: Query | None = None,
+        extra_body: Body | None = None,
+        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
+    ) -> DeltaRetrieveResourceResponse:
+        """
+        Get Deltas Flat Resource
+
+        Args:
+          extra_headers: Send extra headers
+
+          extra_query: Add additional query parameters to the request
+
+          extra_body: Add additional JSON properties to the request
+
+          timeout: Override the client-level default timeout for this request, in seconds
+        """
+        if not particle_patient_id:
+            raise ValueError(
+                f"Expected a non-empty value for `particle_patient_id` but received {particle_patient_id!r}"
+            )
+        if not resource_type:
+            raise ValueError(f"Expected a non-empty value for `resource_type` but received {resource_type!r}")
+        if not resource_id:
+            raise ValueError(f"Expected a non-empty value for `resource_id` but received {resource_id!r}")
+        return await self._get(
+            f"/deltas/flat/{particle_patient_id}/{resource_type}/{resource_id}",
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=DeltaRetrieveResourceResponse,
+        )
 
     async def retrieve_status(
         self,
@@ -292,6 +583,15 @@ class DeltasResourceWithRawResponse:
     def __init__(self, deltas: DeltasResource) -> None:
         self._deltas = deltas
 
+        self.collect_datasets = to_raw_response_wrapper(
+            deltas.collect_datasets,
+        )
+        self.collect_flat_datasets = to_raw_response_wrapper(
+            deltas.collect_flat_datasets,
+        )
+        self.retrieve_resource = to_raw_response_wrapper(
+            deltas.retrieve_resource,
+        )
         self.retrieve_status = to_raw_response_wrapper(
             deltas.retrieve_status,
         )
@@ -300,18 +600,23 @@ class DeltasResourceWithRawResponse:
         )
 
     @cached_property
-    def r4(self) -> R4ResourceWithRawResponse:
-        return R4ResourceWithRawResponse(self._deltas.r4)
-
-    @cached_property
-    def flat(self) -> FlatResourceWithRawResponse:
-        return FlatResourceWithRawResponse(self._deltas.flat)
+    def legacy(self) -> LegacyResourceWithRawResponse:
+        return LegacyResourceWithRawResponse(self._deltas.legacy)
 
 
 class AsyncDeltasResourceWithRawResponse:
     def __init__(self, deltas: AsyncDeltasResource) -> None:
         self._deltas = deltas
 
+        self.collect_datasets = async_to_raw_response_wrapper(
+            deltas.collect_datasets,
+        )
+        self.collect_flat_datasets = async_to_raw_response_wrapper(
+            deltas.collect_flat_datasets,
+        )
+        self.retrieve_resource = async_to_raw_response_wrapper(
+            deltas.retrieve_resource,
+        )
         self.retrieve_status = async_to_raw_response_wrapper(
             deltas.retrieve_status,
         )
@@ -320,18 +625,23 @@ class AsyncDeltasResourceWithRawResponse:
         )
 
     @cached_property
-    def r4(self) -> AsyncR4ResourceWithRawResponse:
-        return AsyncR4ResourceWithRawResponse(self._deltas.r4)
-
-    @cached_property
-    def flat(self) -> AsyncFlatResourceWithRawResponse:
-        return AsyncFlatResourceWithRawResponse(self._deltas.flat)
+    def legacy(self) -> AsyncLegacyResourceWithRawResponse:
+        return AsyncLegacyResourceWithRawResponse(self._deltas.legacy)
 
 
 class DeltasResourceWithStreamingResponse:
     def __init__(self, deltas: DeltasResource) -> None:
         self._deltas = deltas
 
+        self.collect_datasets = to_streamed_response_wrapper(
+            deltas.collect_datasets,
+        )
+        self.collect_flat_datasets = to_streamed_response_wrapper(
+            deltas.collect_flat_datasets,
+        )
+        self.retrieve_resource = to_streamed_response_wrapper(
+            deltas.retrieve_resource,
+        )
         self.retrieve_status = to_streamed_response_wrapper(
             deltas.retrieve_status,
         )
@@ -340,18 +650,23 @@ class DeltasResourceWithStreamingResponse:
         )
 
     @cached_property
-    def r4(self) -> R4ResourceWithStreamingResponse:
-        return R4ResourceWithStreamingResponse(self._deltas.r4)
-
-    @cached_property
-    def flat(self) -> FlatResourceWithStreamingResponse:
-        return FlatResourceWithStreamingResponse(self._deltas.flat)
+    def legacy(self) -> LegacyResourceWithStreamingResponse:
+        return LegacyResourceWithStreamingResponse(self._deltas.legacy)
 
 
 class AsyncDeltasResourceWithStreamingResponse:
     def __init__(self, deltas: AsyncDeltasResource) -> None:
         self._deltas = deltas
 
+        self.collect_datasets = async_to_streamed_response_wrapper(
+            deltas.collect_datasets,
+        )
+        self.collect_flat_datasets = async_to_streamed_response_wrapper(
+            deltas.collect_flat_datasets,
+        )
+        self.retrieve_resource = async_to_streamed_response_wrapper(
+            deltas.retrieve_resource,
+        )
         self.retrieve_status = async_to_streamed_response_wrapper(
             deltas.retrieve_status,
         )
@@ -360,9 +675,5 @@ class AsyncDeltasResourceWithStreamingResponse:
         )
 
     @cached_property
-    def r4(self) -> AsyncR4ResourceWithStreamingResponse:
-        return AsyncR4ResourceWithStreamingResponse(self._deltas.r4)
-
-    @cached_property
-    def flat(self) -> AsyncFlatResourceWithStreamingResponse:
-        return AsyncFlatResourceWithStreamingResponse(self._deltas.flat)
+    def legacy(self) -> AsyncLegacyResourceWithStreamingResponse:
+        return AsyncLegacyResourceWithStreamingResponse(self._deltas.legacy)

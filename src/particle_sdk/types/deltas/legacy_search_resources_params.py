@@ -6,10 +6,10 @@ from typing_extensions import Required, Annotated, TypedDict
 
 from ..._utils import PropertyInfo
 
-__all__ = ["R4SearchResourcesParams"]
+__all__ = ["LegacySearchResourcesParams"]
 
 
-class R4SearchResourcesParams(TypedDict, total=False):
+class LegacySearchResourcesParams(TypedDict, total=False):
     person: Required[str]
     """Particle Patient ID"""
 
