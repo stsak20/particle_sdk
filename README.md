@@ -24,11 +24,10 @@ pip install --pre particle_sdk
 The full API of this library can be found in [api.md](api.md).
 
 ```python
-import os
 from particle_sdk import ParticleSDK
 
 client = ParticleSDK(
-    api_key=os.environ.get("PARTICLE_SDK_API_KEY"),  # This is the default and can be omitted
+    jwt_token="My Jwt Token",
     # defaults to "sandbox".
     environment="production",
 )
@@ -40,22 +39,16 @@ document = client.documents.submit(
 print(document.document_id)
 ```
 
-While you can provide an `api_key` keyword argument,
-we recommend using [python-dotenv](https://pypi.org/project/python-dotenv/)
-to add `PARTICLE_SDK_API_KEY="My API Key"` to your `.env` file
-so that your API Key is not stored in source control.
-
 ## Async usage
 
 Simply import `AsyncParticleSDK` instead of `ParticleSDK` and use `await` with each API call:
 
 ```python
-import os
 import asyncio
 from particle_sdk import AsyncParticleSDK
 
 client = AsyncParticleSDK(
-    api_key=os.environ.get("PARTICLE_SDK_API_KEY"),  # This is the default and can be omitted
+    jwt_token="My Jwt Token",
     # defaults to "sandbox".
     environment="production",
 )

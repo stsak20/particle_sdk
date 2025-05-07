@@ -38,7 +38,7 @@ from particle_sdk.types.document_submit_params import DocumentSubmitParams
 from .utils import update_env
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
-api_key = "My API Key"
+jwt_token = "My Jwt Token"
 
 
 def _get_params(client: BaseClient[Any, Any]) -> dict[str, str]:
@@ -60,7 +60,7 @@ def _get_open_connections(client: ParticleSDK | AsyncParticleSDK) -> int:
 
 
 class TestParticleSDK:
-    client = ParticleSDK(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+    client = ParticleSDK(base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True)
 
     @pytest.mark.respx(base_url=base_url)
     def test_raw_response(self, respx_mock: MockRouter) -> None:
@@ -86,9 +86,9 @@ class TestParticleSDK:
         copied = self.client.copy()
         assert id(copied) != id(self.client)
 
-        copied = self.client.copy(api_key="another My API Key")
-        assert copied.api_key == "another My API Key"
-        assert self.client.api_key == "My API Key"
+        copied = self.client.copy(jwt_token="another My Jwt Token")
+        assert copied.jwt_token == "another My Jwt Token"
+        assert self.client.jwt_token == "My Jwt Token"
 
     def test_copy_default_options(self) -> None:
         # options that have a default are overridden correctly
@@ -108,7 +108,7 @@ class TestParticleSDK:
 
     def test_copy_default_headers(self) -> None:
         client = ParticleSDK(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
+            base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         assert client.default_headers["X-Foo"] == "bar"
 
@@ -142,7 +142,7 @@ class TestParticleSDK:
 
     def test_copy_default_query(self) -> None:
         client = ParticleSDK(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"foo": "bar"}
+            base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True, default_query={"foo": "bar"}
         )
         assert _get_params(client)["foo"] == "bar"
 
@@ -267,7 +267,7 @@ class TestParticleSDK:
 
     def test_client_timeout_option(self) -> None:
         client = ParticleSDK(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0)
+            base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True, timeout=httpx.Timeout(0)
         )
 
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -278,7 +278,7 @@ class TestParticleSDK:
         # custom timeout given to the httpx client should be used
         with httpx.Client(timeout=None) as http_client:
             client = ParticleSDK(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -288,7 +288,7 @@ class TestParticleSDK:
         # no timeout given to the httpx client should not use the httpx default
         with httpx.Client() as http_client:
             client = ParticleSDK(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -298,7 +298,7 @@ class TestParticleSDK:
         # explicitly passing the default timeout currently results in it being ignored
         with httpx.Client(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
             client = ParticleSDK(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -310,14 +310,14 @@ class TestParticleSDK:
             async with httpx.AsyncClient() as http_client:
                 ParticleSDK(
                     base_url=base_url,
-                    api_key=api_key,
+                    jwt_token=jwt_token,
                     _strict_response_validation=True,
                     http_client=cast(Any, http_client),
                 )
 
     def test_default_headers_option(self) -> None:
         client = ParticleSDK(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
+            base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
@@ -325,7 +325,7 @@ class TestParticleSDK:
 
         client2 = ParticleSDK(
             base_url=base_url,
-            api_key=api_key,
+            jwt_token=jwt_token,
             _strict_response_validation=True,
             default_headers={
                 "X-Foo": "stainless",
@@ -337,27 +337,16 @@ class TestParticleSDK:
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
 
     def test_validate_headers(self) -> None:
-        client = ParticleSDK(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = ParticleSDK(base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True)
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
-        assert request.headers.get("Authorization") == api_key
-
-        with update_env(**{"PARTICLE_SDK_API_KEY": Omit()}):
-            client2 = ParticleSDK(base_url=base_url, api_key=None, _strict_response_validation=True)
-
-        with pytest.raises(
-            TypeError,
-            match="Could not resolve authentication method. Expected the api_key to be set. Or for the `Authorization` headers to be explicitly omitted",
-        ):
-            client2._build_request(FinalRequestOptions(method="get", url="/foo"))
-
-        request2 = client2._build_request(
-            FinalRequestOptions(method="get", url="/foo", headers={"Authorization": Omit()})
-        )
-        assert request2.headers.get("Authorization") is None
+        assert request.headers.get("Authorization") == f"Bearer {jwt_token}"
 
     def test_default_query_option(self) -> None:
         client = ParticleSDK(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"query_param": "bar"}
+            base_url=base_url,
+            jwt_token=jwt_token,
+            _strict_response_validation=True,
+            default_query={"query_param": "bar"},
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         url = httpx.URL(request.url)
@@ -558,7 +547,7 @@ class TestParticleSDK:
 
     def test_base_url_setter(self) -> None:
         client = ParticleSDK(
-            base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True
+            base_url="https://example.com/from_init", jwt_token=jwt_token, _strict_response_validation=True
         )
         assert client.base_url == "https://example.com/from_init/"
 
@@ -568,16 +557,16 @@ class TestParticleSDK:
 
     def test_base_url_env(self) -> None:
         with update_env(PARTICLE_SDK_BASE_URL="http://localhost:5000/from/env"):
-            client = ParticleSDK(api_key=api_key, _strict_response_validation=True)
+            client = ParticleSDK(jwt_token=jwt_token, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
         # explicit environment arg requires explicitness
         with update_env(PARTICLE_SDK_BASE_URL="http://localhost:5000/from/env"):
             with pytest.raises(ValueError, match=r"you must pass base_url=None"):
-                ParticleSDK(api_key=api_key, _strict_response_validation=True, environment="sandbox")
+                ParticleSDK(jwt_token=jwt_token, _strict_response_validation=True, environment="sandbox")
 
             client = ParticleSDK(
-                base_url=None, api_key=api_key, _strict_response_validation=True, environment="sandbox"
+                base_url=None, jwt_token=jwt_token, _strict_response_validation=True, environment="sandbox"
             )
             assert str(client.base_url).startswith("https://sandbox.particlehealth.com")
 
@@ -585,11 +574,11 @@ class TestParticleSDK:
         "client",
         [
             ParticleSDK(
-                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
+                base_url="http://localhost:5000/custom/path/", jwt_token=jwt_token, _strict_response_validation=True
             ),
             ParticleSDK(
                 base_url="http://localhost:5000/custom/path/",
-                api_key=api_key,
+                jwt_token=jwt_token,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
             ),
@@ -610,11 +599,11 @@ class TestParticleSDK:
         "client",
         [
             ParticleSDK(
-                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
+                base_url="http://localhost:5000/custom/path/", jwt_token=jwt_token, _strict_response_validation=True
             ),
             ParticleSDK(
                 base_url="http://localhost:5000/custom/path/",
-                api_key=api_key,
+                jwt_token=jwt_token,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
             ),
@@ -635,11 +624,11 @@ class TestParticleSDK:
         "client",
         [
             ParticleSDK(
-                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
+                base_url="http://localhost:5000/custom/path/", jwt_token=jwt_token, _strict_response_validation=True
             ),
             ParticleSDK(
                 base_url="http://localhost:5000/custom/path/",
-                api_key=api_key,
+                jwt_token=jwt_token,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
             ),
@@ -657,7 +646,7 @@ class TestParticleSDK:
         assert request.url == "https://myapi.com/foo"
 
     def test_copied_client_does_not_close_http(self) -> None:
-        client = ParticleSDK(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = ParticleSDK(base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True)
         assert not client.is_closed()
 
         copied = client.copy()
@@ -668,7 +657,7 @@ class TestParticleSDK:
         assert not client.is_closed()
 
     def test_client_context_manager(self) -> None:
-        client = ParticleSDK(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = ParticleSDK(base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True)
         with client as c2:
             assert c2 is client
             assert not c2.is_closed()
@@ -690,7 +679,7 @@ class TestParticleSDK:
     def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
             ParticleSDK(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None)
+                base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True, max_retries=cast(Any, None)
             )
 
     @pytest.mark.respx(base_url=base_url)
@@ -700,12 +689,12 @@ class TestParticleSDK:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = ParticleSDK(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        strict_client = ParticleSDK(base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True)
 
         with pytest.raises(APIResponseValidationError):
             strict_client.get("/foo", cast_to=Model)
 
-        client = ParticleSDK(base_url=base_url, api_key=api_key, _strict_response_validation=False)
+        client = ParticleSDK(base_url=base_url, jwt_token=jwt_token, _strict_response_validation=False)
 
         response = client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
@@ -733,7 +722,7 @@ class TestParticleSDK:
     )
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
     def test_parse_retry_after_header(self, remaining_retries: int, retry_after: str, timeout: float) -> None:
-        client = ParticleSDK(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = ParticleSDK(base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True)
 
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
@@ -857,7 +846,7 @@ class TestParticleSDK:
 
 
 class TestAsyncParticleSDK:
-    client = AsyncParticleSDK(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+    client = AsyncParticleSDK(base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True)
 
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
@@ -885,9 +874,9 @@ class TestAsyncParticleSDK:
         copied = self.client.copy()
         assert id(copied) != id(self.client)
 
-        copied = self.client.copy(api_key="another My API Key")
-        assert copied.api_key == "another My API Key"
-        assert self.client.api_key == "My API Key"
+        copied = self.client.copy(jwt_token="another My Jwt Token")
+        assert copied.jwt_token == "another My Jwt Token"
+        assert self.client.jwt_token == "My Jwt Token"
 
     def test_copy_default_options(self) -> None:
         # options that have a default are overridden correctly
@@ -907,7 +896,7 @@ class TestAsyncParticleSDK:
 
     def test_copy_default_headers(self) -> None:
         client = AsyncParticleSDK(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
+            base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         assert client.default_headers["X-Foo"] == "bar"
 
@@ -941,7 +930,7 @@ class TestAsyncParticleSDK:
 
     def test_copy_default_query(self) -> None:
         client = AsyncParticleSDK(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"foo": "bar"}
+            base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True, default_query={"foo": "bar"}
         )
         assert _get_params(client)["foo"] == "bar"
 
@@ -1066,7 +1055,7 @@ class TestAsyncParticleSDK:
 
     async def test_client_timeout_option(self) -> None:
         client = AsyncParticleSDK(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0)
+            base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True, timeout=httpx.Timeout(0)
         )
 
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1077,7 +1066,7 @@ class TestAsyncParticleSDK:
         # custom timeout given to the httpx client should be used
         async with httpx.AsyncClient(timeout=None) as http_client:
             client = AsyncParticleSDK(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1087,7 +1076,7 @@ class TestAsyncParticleSDK:
         # no timeout given to the httpx client should not use the httpx default
         async with httpx.AsyncClient() as http_client:
             client = AsyncParticleSDK(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1097,7 +1086,7 @@ class TestAsyncParticleSDK:
         # explicitly passing the default timeout currently results in it being ignored
         async with httpx.AsyncClient(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
             client = AsyncParticleSDK(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+                base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True, http_client=http_client
             )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
@@ -1109,14 +1098,14 @@ class TestAsyncParticleSDK:
             with httpx.Client() as http_client:
                 AsyncParticleSDK(
                     base_url=base_url,
-                    api_key=api_key,
+                    jwt_token=jwt_token,
                     _strict_response_validation=True,
                     http_client=cast(Any, http_client),
                 )
 
     def test_default_headers_option(self) -> None:
         client = AsyncParticleSDK(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
+            base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
@@ -1124,7 +1113,7 @@ class TestAsyncParticleSDK:
 
         client2 = AsyncParticleSDK(
             base_url=base_url,
-            api_key=api_key,
+            jwt_token=jwt_token,
             _strict_response_validation=True,
             default_headers={
                 "X-Foo": "stainless",
@@ -1136,27 +1125,16 @@ class TestAsyncParticleSDK:
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
 
     def test_validate_headers(self) -> None:
-        client = AsyncParticleSDK(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = AsyncParticleSDK(base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True)
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
-        assert request.headers.get("Authorization") == api_key
-
-        with update_env(**{"PARTICLE_SDK_API_KEY": Omit()}):
-            client2 = AsyncParticleSDK(base_url=base_url, api_key=None, _strict_response_validation=True)
-
-        with pytest.raises(
-            TypeError,
-            match="Could not resolve authentication method. Expected the api_key to be set. Or for the `Authorization` headers to be explicitly omitted",
-        ):
-            client2._build_request(FinalRequestOptions(method="get", url="/foo"))
-
-        request2 = client2._build_request(
-            FinalRequestOptions(method="get", url="/foo", headers={"Authorization": Omit()})
-        )
-        assert request2.headers.get("Authorization") is None
+        assert request.headers.get("Authorization") == f"Bearer {jwt_token}"
 
     def test_default_query_option(self) -> None:
         client = AsyncParticleSDK(
-            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"query_param": "bar"}
+            base_url=base_url,
+            jwt_token=jwt_token,
+            _strict_response_validation=True,
+            default_query={"query_param": "bar"},
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         url = httpx.URL(request.url)
@@ -1357,7 +1335,7 @@ class TestAsyncParticleSDK:
 
     def test_base_url_setter(self) -> None:
         client = AsyncParticleSDK(
-            base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True
+            base_url="https://example.com/from_init", jwt_token=jwt_token, _strict_response_validation=True
         )
         assert client.base_url == "https://example.com/from_init/"
 
@@ -1367,16 +1345,16 @@ class TestAsyncParticleSDK:
 
     def test_base_url_env(self) -> None:
         with update_env(PARTICLE_SDK_BASE_URL="http://localhost:5000/from/env"):
-            client = AsyncParticleSDK(api_key=api_key, _strict_response_validation=True)
+            client = AsyncParticleSDK(jwt_token=jwt_token, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
         # explicit environment arg requires explicitness
         with update_env(PARTICLE_SDK_BASE_URL="http://localhost:5000/from/env"):
             with pytest.raises(ValueError, match=r"you must pass base_url=None"):
-                AsyncParticleSDK(api_key=api_key, _strict_response_validation=True, environment="sandbox")
+                AsyncParticleSDK(jwt_token=jwt_token, _strict_response_validation=True, environment="sandbox")
 
             client = AsyncParticleSDK(
-                base_url=None, api_key=api_key, _strict_response_validation=True, environment="sandbox"
+                base_url=None, jwt_token=jwt_token, _strict_response_validation=True, environment="sandbox"
             )
             assert str(client.base_url).startswith("https://sandbox.particlehealth.com")
 
@@ -1384,11 +1362,11 @@ class TestAsyncParticleSDK:
         "client",
         [
             AsyncParticleSDK(
-                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
+                base_url="http://localhost:5000/custom/path/", jwt_token=jwt_token, _strict_response_validation=True
             ),
             AsyncParticleSDK(
                 base_url="http://localhost:5000/custom/path/",
-                api_key=api_key,
+                jwt_token=jwt_token,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
             ),
@@ -1409,11 +1387,11 @@ class TestAsyncParticleSDK:
         "client",
         [
             AsyncParticleSDK(
-                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
+                base_url="http://localhost:5000/custom/path/", jwt_token=jwt_token, _strict_response_validation=True
             ),
             AsyncParticleSDK(
                 base_url="http://localhost:5000/custom/path/",
-                api_key=api_key,
+                jwt_token=jwt_token,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
             ),
@@ -1434,11 +1412,11 @@ class TestAsyncParticleSDK:
         "client",
         [
             AsyncParticleSDK(
-                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
+                base_url="http://localhost:5000/custom/path/", jwt_token=jwt_token, _strict_response_validation=True
             ),
             AsyncParticleSDK(
                 base_url="http://localhost:5000/custom/path/",
-                api_key=api_key,
+                jwt_token=jwt_token,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
             ),
@@ -1456,7 +1434,7 @@ class TestAsyncParticleSDK:
         assert request.url == "https://myapi.com/foo"
 
     async def test_copied_client_does_not_close_http(self) -> None:
-        client = AsyncParticleSDK(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = AsyncParticleSDK(base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True)
         assert not client.is_closed()
 
         copied = client.copy()
@@ -1468,7 +1446,7 @@ class TestAsyncParticleSDK:
         assert not client.is_closed()
 
     async def test_client_context_manager(self) -> None:
-        client = AsyncParticleSDK(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = AsyncParticleSDK(base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True)
         async with client as c2:
             assert c2 is client
             assert not c2.is_closed()
@@ -1491,7 +1469,7 @@ class TestAsyncParticleSDK:
     async def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
             AsyncParticleSDK(
-                base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None)
+                base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True, max_retries=cast(Any, None)
             )
 
     @pytest.mark.respx(base_url=base_url)
@@ -1502,12 +1480,12 @@ class TestAsyncParticleSDK:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = AsyncParticleSDK(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        strict_client = AsyncParticleSDK(base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True)
 
         with pytest.raises(APIResponseValidationError):
             await strict_client.get("/foo", cast_to=Model)
 
-        client = AsyncParticleSDK(base_url=base_url, api_key=api_key, _strict_response_validation=False)
+        client = AsyncParticleSDK(base_url=base_url, jwt_token=jwt_token, _strict_response_validation=False)
 
         response = await client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
@@ -1536,7 +1514,7 @@ class TestAsyncParticleSDK:
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
     @pytest.mark.asyncio
     async def test_parse_retry_after_header(self, remaining_retries: int, retry_after: str, timeout: float) -> None:
-        client = AsyncParticleSDK(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        client = AsyncParticleSDK(base_url=base_url, jwt_token=jwt_token, _strict_response_validation=True)
 
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
