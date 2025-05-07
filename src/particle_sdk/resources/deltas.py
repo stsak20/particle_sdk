@@ -6,40 +6,28 @@ from typing import List
 
 import httpx
 
-from .legacy import (
-    LegacyResource,
-    AsyncLegacyResource,
-    LegacyResourceWithRawResponse,
-    AsyncLegacyResourceWithRawResponse,
-    LegacyResourceWithStreamingResponse,
-    AsyncLegacyResourceWithStreamingResponse,
-)
-from ...types import delta_submit_params, delta_collect_datasets_params, delta_collect_flat_datasets_params
-from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import maybe_transform, async_maybe_transform
-from ..._compat import cached_property
-from ..._resource import SyncAPIResource, AsyncAPIResource
-from ..._response import (
+from ..types import delta_submit_params, delta_collect_fhir_datasets_params, delta_collect_flat_datasets_params
+from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
+from .._utils import maybe_transform, async_maybe_transform
+from .._compat import cached_property
+from .._resource import SyncAPIResource, AsyncAPIResource
+from .._response import (
     to_raw_response_wrapper,
     to_streamed_response_wrapper,
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ...types.query import Query
-from ..._base_client import make_request_options
-from ...types.delta_submit_response import DeltaSubmitResponse
-from ...types.delta_collect_datasets_response import DeltaCollectDatasetsResponse
-from ...types.delta_retrieve_resource_response import DeltaRetrieveResourceResponse
-from ...types.delta_collect_flat_datasets_response import DeltaCollectFlatDatasetsResponse
+from ..types.query import Query
+from .._base_client import make_request_options
+from ..types.delta_submit_response import DeltaSubmitResponse
+from ..types.delta_retrieve_resource_response import DeltaRetrieveResourceResponse
+from ..types.delta_collect_fhir_datasets_response import DeltaCollectFhirDatasetsResponse
+from ..types.delta_collect_flat_datasets_response import DeltaCollectFlatDatasetsResponse
 
 __all__ = ["DeltasResource", "AsyncDeltasResource"]
 
 
 class DeltasResource(SyncAPIResource):
-    @cached_property
-    def legacy(self) -> LegacyResource:
-        return LegacyResource(self._client)
-
     @cached_property
     def with_raw_response(self) -> DeltasResourceWithRawResponse:
         """
@@ -59,7 +47,7 @@ class DeltasResource(SyncAPIResource):
         """
         return DeltasResourceWithStreamingResponse(self)
 
-    def collect_datasets(
+    def collect_fhir_datasets(
         self,
         particle_patient_id: str,
         *,
@@ -75,7 +63,7 @@ class DeltasResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> DeltaCollectDatasetsResponse:
+    ) -> DeltaCollectFhirDatasetsResponse:
         """
         Collect Deltas FHIR Datasets
 
@@ -120,10 +108,10 @@ class DeltasResource(SyncAPIResource):
                         "page_token": page_token,
                         "start": start,
                     },
-                    delta_collect_datasets_params.DeltaCollectDatasetsParams,
+                    delta_collect_fhir_datasets_params.DeltaCollectFhirDatasetsParams,
                 ),
             ),
-            cast_to=DeltaCollectDatasetsResponse,
+            cast_to=DeltaCollectFhirDatasetsResponse,
         )
 
     def collect_flat_datasets(
@@ -309,10 +297,6 @@ class DeltasResource(SyncAPIResource):
 
 class AsyncDeltasResource(AsyncAPIResource):
     @cached_property
-    def legacy(self) -> AsyncLegacyResource:
-        return AsyncLegacyResource(self._client)
-
-    @cached_property
     def with_raw_response(self) -> AsyncDeltasResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return
@@ -331,7 +315,7 @@ class AsyncDeltasResource(AsyncAPIResource):
         """
         return AsyncDeltasResourceWithStreamingResponse(self)
 
-    async def collect_datasets(
+    async def collect_fhir_datasets(
         self,
         particle_patient_id: str,
         *,
@@ -347,7 +331,7 @@ class AsyncDeltasResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> DeltaCollectDatasetsResponse:
+    ) -> DeltaCollectFhirDatasetsResponse:
         """
         Collect Deltas FHIR Datasets
 
@@ -392,10 +376,10 @@ class AsyncDeltasResource(AsyncAPIResource):
                         "page_token": page_token,
                         "start": start,
                     },
-                    delta_collect_datasets_params.DeltaCollectDatasetsParams,
+                    delta_collect_fhir_datasets_params.DeltaCollectFhirDatasetsParams,
                 ),
             ),
-            cast_to=DeltaCollectDatasetsResponse,
+            cast_to=DeltaCollectFhirDatasetsResponse,
         )
 
     async def collect_flat_datasets(
@@ -583,8 +567,8 @@ class DeltasResourceWithRawResponse:
     def __init__(self, deltas: DeltasResource) -> None:
         self._deltas = deltas
 
-        self.collect_datasets = to_raw_response_wrapper(
-            deltas.collect_datasets,
+        self.collect_fhir_datasets = to_raw_response_wrapper(
+            deltas.collect_fhir_datasets,
         )
         self.collect_flat_datasets = to_raw_response_wrapper(
             deltas.collect_flat_datasets,
@@ -599,17 +583,13 @@ class DeltasResourceWithRawResponse:
             deltas.submit,
         )
 
-    @cached_property
-    def legacy(self) -> LegacyResourceWithRawResponse:
-        return LegacyResourceWithRawResponse(self._deltas.legacy)
-
 
 class AsyncDeltasResourceWithRawResponse:
     def __init__(self, deltas: AsyncDeltasResource) -> None:
         self._deltas = deltas
 
-        self.collect_datasets = async_to_raw_response_wrapper(
-            deltas.collect_datasets,
+        self.collect_fhir_datasets = async_to_raw_response_wrapper(
+            deltas.collect_fhir_datasets,
         )
         self.collect_flat_datasets = async_to_raw_response_wrapper(
             deltas.collect_flat_datasets,
@@ -624,17 +604,13 @@ class AsyncDeltasResourceWithRawResponse:
             deltas.submit,
         )
 
-    @cached_property
-    def legacy(self) -> AsyncLegacyResourceWithRawResponse:
-        return AsyncLegacyResourceWithRawResponse(self._deltas.legacy)
-
 
 class DeltasResourceWithStreamingResponse:
     def __init__(self, deltas: DeltasResource) -> None:
         self._deltas = deltas
 
-        self.collect_datasets = to_streamed_response_wrapper(
-            deltas.collect_datasets,
+        self.collect_fhir_datasets = to_streamed_response_wrapper(
+            deltas.collect_fhir_datasets,
         )
         self.collect_flat_datasets = to_streamed_response_wrapper(
             deltas.collect_flat_datasets,
@@ -649,17 +625,13 @@ class DeltasResourceWithStreamingResponse:
             deltas.submit,
         )
 
-    @cached_property
-    def legacy(self) -> LegacyResourceWithStreamingResponse:
-        return LegacyResourceWithStreamingResponse(self._deltas.legacy)
-
 
 class AsyncDeltasResourceWithStreamingResponse:
     def __init__(self, deltas: AsyncDeltasResource) -> None:
         self._deltas = deltas
 
-        self.collect_datasets = async_to_streamed_response_wrapper(
-            deltas.collect_datasets,
+        self.collect_fhir_datasets = async_to_streamed_response_wrapper(
+            deltas.collect_fhir_datasets,
         )
         self.collect_flat_datasets = async_to_streamed_response_wrapper(
             deltas.collect_flat_datasets,
@@ -673,7 +645,3 @@ class AsyncDeltasResourceWithStreamingResponse:
         self.submit = async_to_streamed_response_wrapper(
             deltas.submit,
         )
-
-    @cached_property
-    def legacy(self) -> AsyncLegacyResourceWithStreamingResponse:
-        return AsyncLegacyResourceWithStreamingResponse(self._deltas.legacy)
