@@ -62,7 +62,6 @@ class ParticleSDK(SyncAPIClient):
     with_streaming_response: ParticleSDKWithStreamedResponse
 
     # client options
-    api_key: str | None
     jwt_token: str
 
     _environment: Literal["sandbox", "production"] | NotGiven
@@ -70,7 +69,6 @@ class ParticleSDK(SyncAPIClient):
     def __init__(
         self,
         *,
-        api_key: str | None = None,
         jwt_token: str,
         environment: Literal["sandbox", "production"] | NotGiven = NOT_GIVEN,
         base_url: str | httpx.URL | None | NotGiven = NOT_GIVEN,
@@ -92,14 +90,7 @@ class ParticleSDK(SyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new synchronous ParticleSDK client instance.
-
-        This automatically infers the `api_key` argument from the `PARTICLE_JWT_TOKEN` environment variable if it is not provided.
-        """
-        if api_key is None:
-            api_key = os.environ.get("PARTICLE_JWT_TOKEN")
-        self.api_key = api_key
-
+        """Construct a new synchronous ParticleSDK client instance."""
         self.jwt_token = jwt_token
 
         self._environment = environment
@@ -172,7 +163,6 @@ class ParticleSDK(SyncAPIClient):
     def copy(
         self,
         *,
-        api_key: str | None = None,
         jwt_token: str | None = None,
         environment: Literal["sandbox", "production"] | None = None,
         base_url: str | httpx.URL | None = None,
@@ -208,7 +198,6 @@ class ParticleSDK(SyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
-            api_key=api_key or self.api_key,
             jwt_token=jwt_token or self.jwt_token,
             base_url=base_url or self.base_url,
             environment=environment or self._environment,
@@ -270,7 +259,6 @@ class AsyncParticleSDK(AsyncAPIClient):
     with_streaming_response: AsyncParticleSDKWithStreamedResponse
 
     # client options
-    api_key: str | None
     jwt_token: str
 
     _environment: Literal["sandbox", "production"] | NotGiven
@@ -278,7 +266,6 @@ class AsyncParticleSDK(AsyncAPIClient):
     def __init__(
         self,
         *,
-        api_key: str | None = None,
         jwt_token: str,
         environment: Literal["sandbox", "production"] | NotGiven = NOT_GIVEN,
         base_url: str | httpx.URL | None | NotGiven = NOT_GIVEN,
@@ -300,14 +287,7 @@ class AsyncParticleSDK(AsyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new async AsyncParticleSDK client instance.
-
-        This automatically infers the `api_key` argument from the `PARTICLE_JWT_TOKEN` environment variable if it is not provided.
-        """
-        if api_key is None:
-            api_key = os.environ.get("PARTICLE_JWT_TOKEN")
-        self.api_key = api_key
-
+        """Construct a new async AsyncParticleSDK client instance."""
         self.jwt_token = jwt_token
 
         self._environment = environment
@@ -380,7 +360,6 @@ class AsyncParticleSDK(AsyncAPIClient):
     def copy(
         self,
         *,
-        api_key: str | None = None,
         jwt_token: str | None = None,
         environment: Literal["sandbox", "production"] | None = None,
         base_url: str | httpx.URL | None = None,
@@ -416,7 +395,6 @@ class AsyncParticleSDK(AsyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
-            api_key=api_key or self.api_key,
             jwt_token=jwt_token or self.jwt_token,
             base_url=base_url or self.base_url,
             environment=environment or self._environment,
