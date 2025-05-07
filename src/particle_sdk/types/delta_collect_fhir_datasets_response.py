@@ -4,9 +4,9 @@ from typing import Dict, List, Optional
 
 from pydantic import Field as FieldInfo
 
-from ..._models import BaseModel
+from .._models import BaseModel
 
-__all__ = ["LegacySearchResourcesResponse", "Entry", "EntrySearch", "Link"]
+__all__ = ["DeltaCollectFhirDatasetsResponse", "Entry", "EntrySearch", "Link"]
 
 
 class EntrySearch(BaseModel):
@@ -32,7 +32,7 @@ class Link(BaseModel):
     """The URL at which the link can be accessed."""
 
 
-class LegacySearchResourcesResponse(BaseModel):
+class DeltaCollectFhirDatasetsResponse(BaseModel):
     entry: Optional[List[Entry]] = None
     """The set of search results."""
 

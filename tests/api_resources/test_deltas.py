@@ -12,8 +12,8 @@ from particle_sdk import ParticleSDK, AsyncParticleSDK
 from particle_sdk.types import (
     Query,
     DeltaSubmitResponse,
-    DeltaCollectDatasetsResponse,
     DeltaRetrieveResourceResponse,
+    DeltaCollectFhirDatasetsResponse,
     DeltaCollectFlatDatasetsResponse,
 )
 
@@ -25,16 +25,16 @@ class TestDeltas:
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_collect_datasets(self, client: ParticleSDK) -> None:
-        delta = client.deltas.collect_datasets(
+    def test_method_collect_fhir_datasets(self, client: ParticleSDK) -> None:
+        delta = client.deltas.collect_fhir_datasets(
             particle_patient_id="particle_patient_id",
         )
-        assert_matches_type(DeltaCollectDatasetsResponse, delta, path=["response"])
+        assert_matches_type(DeltaCollectFhirDatasetsResponse, delta, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    def test_method_collect_datasets_with_all_params(self, client: ParticleSDK) -> None:
-        delta = client.deltas.collect_datasets(
+    def test_method_collect_fhir_datasets_with_all_params(self, client: ParticleSDK) -> None:
+        delta = client.deltas.collect_fhir_datasets(
             particle_patient_id="particle_patient_id",
             _count=0,
             _since="_since",
@@ -43,39 +43,39 @@ class TestDeltas:
             page_token="page_token",
             start="start",
         )
-        assert_matches_type(DeltaCollectDatasetsResponse, delta, path=["response"])
+        assert_matches_type(DeltaCollectFhirDatasetsResponse, delta, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    def test_raw_response_collect_datasets(self, client: ParticleSDK) -> None:
-        response = client.deltas.with_raw_response.collect_datasets(
+    def test_raw_response_collect_fhir_datasets(self, client: ParticleSDK) -> None:
+        response = client.deltas.with_raw_response.collect_fhir_datasets(
             particle_patient_id="particle_patient_id",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         delta = response.parse()
-        assert_matches_type(DeltaCollectDatasetsResponse, delta, path=["response"])
+        assert_matches_type(DeltaCollectFhirDatasetsResponse, delta, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    def test_streaming_response_collect_datasets(self, client: ParticleSDK) -> None:
-        with client.deltas.with_streaming_response.collect_datasets(
+    def test_streaming_response_collect_fhir_datasets(self, client: ParticleSDK) -> None:
+        with client.deltas.with_streaming_response.collect_fhir_datasets(
             particle_patient_id="particle_patient_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             delta = response.parse()
-            assert_matches_type(DeltaCollectDatasetsResponse, delta, path=["response"])
+            assert_matches_type(DeltaCollectFhirDatasetsResponse, delta, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip()
     @parametrize
-    def test_path_params_collect_datasets(self, client: ParticleSDK) -> None:
+    def test_path_params_collect_fhir_datasets(self, client: ParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `particle_patient_id` but received ''"):
-            client.deltas.with_raw_response.collect_datasets(
+            client.deltas.with_raw_response.collect_fhir_datasets(
                 particle_patient_id="",
             )
 
@@ -292,16 +292,16 @@ class TestAsyncDeltas:
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_collect_datasets(self, async_client: AsyncParticleSDK) -> None:
-        delta = await async_client.deltas.collect_datasets(
+    async def test_method_collect_fhir_datasets(self, async_client: AsyncParticleSDK) -> None:
+        delta = await async_client.deltas.collect_fhir_datasets(
             particle_patient_id="particle_patient_id",
         )
-        assert_matches_type(DeltaCollectDatasetsResponse, delta, path=["response"])
+        assert_matches_type(DeltaCollectFhirDatasetsResponse, delta, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    async def test_method_collect_datasets_with_all_params(self, async_client: AsyncParticleSDK) -> None:
-        delta = await async_client.deltas.collect_datasets(
+    async def test_method_collect_fhir_datasets_with_all_params(self, async_client: AsyncParticleSDK) -> None:
+        delta = await async_client.deltas.collect_fhir_datasets(
             particle_patient_id="particle_patient_id",
             _count=0,
             _since="_since",
@@ -310,39 +310,39 @@ class TestAsyncDeltas:
             page_token="page_token",
             start="start",
         )
-        assert_matches_type(DeltaCollectDatasetsResponse, delta, path=["response"])
+        assert_matches_type(DeltaCollectFhirDatasetsResponse, delta, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    async def test_raw_response_collect_datasets(self, async_client: AsyncParticleSDK) -> None:
-        response = await async_client.deltas.with_raw_response.collect_datasets(
+    async def test_raw_response_collect_fhir_datasets(self, async_client: AsyncParticleSDK) -> None:
+        response = await async_client.deltas.with_raw_response.collect_fhir_datasets(
             particle_patient_id="particle_patient_id",
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         delta = await response.parse()
-        assert_matches_type(DeltaCollectDatasetsResponse, delta, path=["response"])
+        assert_matches_type(DeltaCollectFhirDatasetsResponse, delta, path=["response"])
 
     @pytest.mark.skip()
     @parametrize
-    async def test_streaming_response_collect_datasets(self, async_client: AsyncParticleSDK) -> None:
-        async with async_client.deltas.with_streaming_response.collect_datasets(
+    async def test_streaming_response_collect_fhir_datasets(self, async_client: AsyncParticleSDK) -> None:
+        async with async_client.deltas.with_streaming_response.collect_fhir_datasets(
             particle_patient_id="particle_patient_id",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             delta = await response.parse()
-            assert_matches_type(DeltaCollectDatasetsResponse, delta, path=["response"])
+            assert_matches_type(DeltaCollectFhirDatasetsResponse, delta, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
     @pytest.mark.skip()
     @parametrize
-    async def test_path_params_collect_datasets(self, async_client: AsyncParticleSDK) -> None:
+    async def test_path_params_collect_fhir_datasets(self, async_client: AsyncParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `particle_patient_id` but received ''"):
-            await async_client.deltas.with_raw_response.collect_datasets(
+            await async_client.deltas.with_raw_response.collect_fhir_datasets(
                 particle_patient_id="",
             )
 
