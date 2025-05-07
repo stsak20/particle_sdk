@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.1.0-alpha.4 (2025-05-07)
+
+Full Changelog: [v0.1.0-alpha.3...v0.1.0-alpha.4](https://github.com/stsak20/particle_sdk/compare/v0.1.0-alpha.3...v0.1.0-alpha.4)
+
+### Features
+
+* **api:** added JWT Auth ([46277fd](https://github.com/stsak20/particle_sdk/commit/46277fdbe0795cf30f2e6d8d22657eee47d3d726))
+* **api:** manual updates ([0260e4a](https://github.com/stsak20/particle_sdk/commit/0260e4a334b8f98a72ddb3e69d6f6d1fbf1433f9))
+
+
+### Bug Fixes
+
+* **api:** remove apikey auth ([826b00f](https://github.com/stsak20/particle_sdk/commit/826b00f652f08d8fea9f6806b88c948c1c517c5c))
+* **api:** restructure deltas resource ([7c5a5e9](https://github.com/stsak20/particle_sdk/commit/7c5a5e94cc9849405d4fa2dc00166add2a924397))
+
 ## 0.1.0-alpha.3 (2025-04-29)
 
 Full Changelog: [v0.1.0-alpha.2...v0.1.0-alpha.3](https://github.com/stsak20/particle_sdk/compare/v0.1.0-alpha.2...v0.1.0-alpha.3)
