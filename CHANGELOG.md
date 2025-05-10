@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.0-alpha.5 (2025-05-10)
+
+Full Changelog: [v0.1.0-alpha.4...v0.1.0-alpha.5](https://github.com/stsak20/particle_sdk/compare/v0.1.0-alpha.4...v0.1.0-alpha.5)
+
+### Bug Fixes
+
+* **package:** support direct resource imports ([5c35097](https://github.com/stsak20/particle_sdk/commit/5c350978f6d534bf0626a63f051025ed8d541e11))
+
+
+### Chores
+
+* **internal:** avoid errors for isinstance checks on proxies ([be10e09](https://github.com/stsak20/particle_sdk/commit/be10e0927489c463d5bde7bfd9579fb8ea01b7e1))
+
 ## 0.1.0-alpha.4 (2025-05-07)
 
 Full Changelog: [v0.1.0-alpha.3...v0.1.0-alpha.4](https://github.com/stsak20/particle_sdk/compare/v0.1.0-alpha.3...v0.1.0-alpha.4)
