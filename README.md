@@ -27,7 +27,6 @@ The full API of this library can be found in [api.md](api.md).
 from particle_sdk import ParticleSDK
 
 client = ParticleSDK(
-    jwt_token="My Jwt Token",
     # defaults to "sandbox".
     environment="production",
 )
@@ -48,7 +47,6 @@ import asyncio
 from particle_sdk import AsyncParticleSDK
 
 client = AsyncParticleSDK(
-    jwt_token="My Jwt Token",
     # defaults to "sandbox".
     environment="production",
 )
