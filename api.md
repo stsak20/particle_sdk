@@ -84,7 +84,6 @@ Types:
 
 ```python
 from particle_sdk.types import (
-    DeltaCollectFhirDatasetsResponse,
     DeltaCollectFlatDatasetsResponse,
     DeltaRetrieveResourceResponse,
     DeltaSubmitResponse,
@@ -93,7 +92,6 @@ from particle_sdk.types import (
 
 Methods:
 
-- <code title="get /deltas/R4/Patient/{particle_patient_id}/$everything">client.deltas.<a href="./src/particle_sdk/resources/deltas.py">collect_fhir_datasets</a>(particle_patient_id, \*\*<a href="src/particle_sdk/types/delta_collect_fhir_datasets_params.py">params</a>) -> <a href="./src/particle_sdk/types/delta_collect_fhir_datasets_response.py">DeltaCollectFhirDatasetsResponse</a></code>
 - <code title="get /deltas/flat/{particle_patient_id}">client.deltas.<a href="./src/particle_sdk/resources/deltas.py">collect_flat_datasets</a>(particle_patient_id, \*\*<a href="src/particle_sdk/types/delta_collect_flat_datasets_params.py">params</a>) -> <a href="./src/particle_sdk/types/delta_collect_flat_datasets_response.py">DeltaCollectFlatDatasetsResponse</a></code>
 - <code title="get /deltas/flat/{particle_patient_id}/{resource_type}/{resource_id}">client.deltas.<a href="./src/particle_sdk/resources/deltas.py">retrieve_resource</a>(resource_id, \*, particle_patient_id, resource_type) -> <a href="./src/particle_sdk/types/delta_retrieve_resource_response.py">DeltaRetrieveResourceResponse</a></code>
 - <code title="get /deltas/{particle_patient_id}">client.deltas.<a href="./src/particle_sdk/resources/deltas.py">retrieve_status</a>(particle_patient_id) -> <a href="./src/particle_sdk/types/query.py">Query</a></code>
