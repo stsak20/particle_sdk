@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.1.0-alpha.5 (2025-05-28)
+
+Full Changelog: [v0.1.0-alpha.4...v0.1.0-alpha.5](https://github.com/stsak20/particle_sdk/compare/v0.1.0-alpha.4...v0.1.0-alpha.5)
+
+### Bug Fixes
+
+* **package:** support direct resource imports ([5c35097](https://github.com/stsak20/particle_sdk/commit/5c350978f6d534bf0626a63f051025ed8d541e11))
+
+
+### Chores
+
+* **ci:** fix installation instructions ([7c6bee2](https://github.com/stsak20/particle_sdk/commit/7c6bee271b9de85d17c3eda428c0eafc9627698d))
+* **ci:** upload sdks to package manager ([6939bc9](https://github.com/stsak20/particle_sdk/commit/6939bc911944438bbf41d178baaf5de19d1043fa))
+* **docs:** grammar improvements ([ddf1abb](https://github.com/stsak20/particle_sdk/commit/ddf1abb1f03e2e474cc5e1db23266a1e58cab4fc))
+* **internal:** avoid errors for isinstance checks on proxies ([be10e09](https://github.com/stsak20/particle_sdk/commit/be10e0927489c463d5bde7bfd9579fb8ea01b7e1))
+* **internal:** codegen related update ([31f73eb](https://github.com/stsak20/particle_sdk/commit/31f73eb5bfc3d7f6f894d36f7058b3e63c323d14))
+* **internal:** codegen related update ([c6f708c](https://github.com/stsak20/particle_sdk/commit/c6f708cab21bed39b9818e04b62446ab648f3da2))
+* **internal:** codegen related update ([003eafe](https://github.com/stsak20/particle_sdk/commit/003eafebfaa5aa2bf578a52da99d729ec214abe8))
+
 ## 0.1.0-alpha.4 (2025-05-07)
 
 Full Changelog: [v0.1.0-alpha.3...v0.1.0-alpha.4](https://github.com/stsak20/particle_sdk/compare/v0.1.0-alpha.3...v0.1.0-alpha.4)
