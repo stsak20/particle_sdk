@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.0-alpha.6 (2025-06-03)
+
+Full Changelog: [v0.1.0-alpha.5...v0.1.0-alpha.6](https://github.com/stsak20/particle_sdk/compare/v0.1.0-alpha.5...v0.1.0-alpha.6)
+
+### Features
+
+* **client:** add follow_redirects request option ([2959ed7](https://github.com/stsak20/particle_sdk/commit/2959ed753e04f3c21bd26cb3f8d92df7b9b25f84))
+
+
+### Chores
+
+* **docs:** remove reference to rye shell ([db07575](https://github.com/stsak20/particle_sdk/commit/db07575cfd57c0522804191c2c253a9879632ac5))
+
 ## 0.1.0-alpha.5 (2025-05-28)
 
 Full Changelog: [v0.1.0-alpha.4...v0.1.0-alpha.5](https://github.com/stsak20/particle_sdk/compare/v0.1.0-alpha.4...v0.1.0-alpha.5)
