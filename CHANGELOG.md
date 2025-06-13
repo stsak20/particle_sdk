@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.1.0-alpha.7 (2025-06-13)
+
+Full Changelog: [v0.1.0-alpha.6...v0.1.0-alpha.7](https://github.com/stsak20/particle_sdk/compare/v0.1.0-alpha.6...v0.1.0-alpha.7)
+
+### Bug Fixes
+
+* **client:** correctly parse binary response | stream ([11381b6](https://github.com/stsak20/particle_sdk/commit/11381b697cfe449c61c5c703099d57d26e634e82))
+
+
+### Chores
+
+* **tests:** run tests in parallel ([7bd6913](https://github.com/stsak20/particle_sdk/commit/7bd6913aab3fa380aae3e6833a54aa2f894f998e))
+
 ## 0.1.0-alpha.6 (2025-06-03)
 
 Full Changelog: [v0.1.0-alpha.5...v0.1.0-alpha.6](https://github.com/stsak20/particle_sdk/compare/v0.1.0-alpha.5...v0.1.0-alpha.6)
