@@ -1,5 +1,35 @@
 # Changelog
 
+## 0.1.0-alpha.7 (2025-06-27)
+
+Full Changelog: [v0.1.0-alpha.6...v0.1.0-alpha.7](https://github.com/stsak20/particle_sdk/compare/v0.1.0-alpha.6...v0.1.0-alpha.7)
+
+### Features
+
+* **client:** add support for aiohttp ([2804138](https://github.com/stsak20/particle_sdk/commit/280413870e3fe813c55b0bb9700b77c3f0d4d463))
+
+
+### Bug Fixes
+
+* **ci:** release-doctor — report correct token name ([0c8b088](https://github.com/stsak20/particle_sdk/commit/0c8b08881417982937eb33c95e24d1650b4c2793))
+* **client:** correctly parse binary response | stream ([11381b6](https://github.com/stsak20/particle_sdk/commit/11381b697cfe449c61c5c703099d57d26e634e82))
+* **tests:** fix: tests which call HTTP endpoints directly with the example parameters ([d703543](https://github.com/stsak20/particle_sdk/commit/d703543986be8a6af0bef7d4add846bfb8bd729d))
+
+
+### Chores
+
+* **ci:** enable for pull requests ([87c40e2](https://github.com/stsak20/particle_sdk/commit/87c40e2707cf8dba847aa9bfc4fc0607efc629b7))
+* **internal:** update conftest.py ([f708725](https://github.com/stsak20/particle_sdk/commit/f70872507c81511eed13559071b8241eaa6c732c))
+* **readme:** update badges ([8c8ef03](https://github.com/stsak20/particle_sdk/commit/8c8ef0352d34e525b2e486db06a773108541fece))
+* **tests:** add tests for httpx client instantiation & proxies ([fda03e0](https://github.com/stsak20/particle_sdk/commit/fda03e03cf3da5a95b820e2debef15c46d54f6b7))
+* **tests:** run tests in parallel ([7bd6913](https://github.com/stsak20/particle_sdk/commit/7bd6913aab3fa380aae3e6833a54aa2f894f998e))
+* **tests:** skip some failing tests on the latest python versions ([10ed161](https://github.com/stsak20/particle_sdk/commit/10ed1616b10a87705c8e697d71c8fa420c60d8f1))
+
+
+### Documentation
+
+* **client:** fix httpx.Timeout documentation reference ([68dda63](https://github.com/stsak20/particle_sdk/commit/68dda638d4332d39a415fc5fa4b179e4cd16e4f5))
+
 ## 0.1.0-alpha.6 (2025-06-03)
 
 Full Changelog: [v0.1.0-alpha.5...v0.1.0-alpha.6](https://github.com/stsak20/particle_sdk/compare/v0.1.0-alpha.5...v0.1.0-alpha.6)
