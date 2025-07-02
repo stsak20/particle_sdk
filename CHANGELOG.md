@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.1.0-alpha.8 (2025-07-02)
+
+Full Changelog: [v0.1.0-alpha.7...v0.1.0-alpha.8](https://github.com/stsak20/particle_sdk/compare/v0.1.0-alpha.7...v0.1.0-alpha.8)
+
+### Bug Fixes
+
+* **ci:** correct conditional ([1d4686c](https://github.com/stsak20/particle_sdk/commit/1d4686c16fe0ac0fea571429e4b460ef8b31fa21))
+
+
+### Chores
+
+* **ci:** change upload type ([b05490c](https://github.com/stsak20/particle_sdk/commit/b05490ccdb717e7ab8bcf08f8884a2299bf34168))
+* **ci:** only run for pushes and fork pull requests ([6b23b34](https://github.com/stsak20/particle_sdk/commit/6b23b3455b9171803dc19b5c4cfc49bbf87bc0b6))
+
 ## 0.1.0-alpha.7 (2025-06-27)
 
 Full Changelog: [v0.1.0-alpha.6...v0.1.0-alpha.7](https://github.com/stsak20/particle_sdk/compare/v0.1.0-alpha.6...v0.1.0-alpha.7)
