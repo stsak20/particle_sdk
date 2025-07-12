@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.1.0-alpha.8 (2025-07-12)
+
+Full Changelog: [v0.1.0-alpha.7...v0.1.0-alpha.8](https://github.com/stsak20/particle_sdk/compare/v0.1.0-alpha.7...v0.1.0-alpha.8)
+
+### Bug Fixes
+
+* **ci:** correct conditional ([1d4686c](https://github.com/stsak20/particle_sdk/commit/1d4686c16fe0ac0fea571429e4b460ef8b31fa21))
+* **client:** don't send Content-Type header on GET requests ([6939ae1](https://github.com/stsak20/particle_sdk/commit/6939ae17e3e71998f8b75ab0532dfcc6dee0ec76))
+* **parsing:** correctly handle nested discriminated unions ([54961aa](https://github.com/stsak20/particle_sdk/commit/54961aa140b46c2705858144a7c3a66033b50a7b))
+
+
+### Chores
+
+* **ci:** change upload type ([b05490c](https://github.com/stsak20/particle_sdk/commit/b05490ccdb717e7ab8bcf08f8884a2299bf34168))
+* **ci:** only run for pushes and fork pull requests ([6b23b34](https://github.com/stsak20/particle_sdk/commit/6b23b3455b9171803dc19b5c4cfc49bbf87bc0b6))
+* **internal:** bump pinned h11 dep ([7be28ff](https://github.com/stsak20/particle_sdk/commit/7be28ff7c84ca041937d8d4497c1907601ab3a28))
+* **internal:** codegen related update ([b39a3ba](https://github.com/stsak20/particle_sdk/commit/b39a3ba258d79186545c66429873fe25808176d5))
+* **package:** mark python 3.13 as supported ([401c1fc](https://github.com/stsak20/particle_sdk/commit/401c1fcf27e2ceb2b883054fb323f332634d3369))
+* **readme:** fix version rendering on pypi ([62a333b](https://github.com/stsak20/particle_sdk/commit/62a333bbf9a87ee7ad8d896141cef8db45fb69ed))
+
 ## 0.1.0-alpha.7 (2025-06-27)
 
 Full Changelog: [v0.1.0-alpha.6...v0.1.0-alpha.7](https://github.com/stsak20/particle_sdk/compare/v0.1.0-alpha.6...v0.1.0-alpha.7)
