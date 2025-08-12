@@ -17,7 +17,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestDocuments:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_retrieve(self, client: ParticleSDK) -> None:
         document = client.documents.retrieve(
@@ -25,7 +25,7 @@ class TestDocuments:
         )
         assert_matches_type(Document, document, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_retrieve(self, client: ParticleSDK) -> None:
         response = client.documents.with_raw_response.retrieve(
@@ -37,7 +37,7 @@ class TestDocuments:
         document = response.parse()
         assert_matches_type(Document, document, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_retrieve(self, client: ParticleSDK) -> None:
         with client.documents.with_streaming_response.retrieve(
@@ -51,7 +51,7 @@ class TestDocuments:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_retrieve(self, client: ParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -59,7 +59,7 @@ class TestDocuments:
                 "",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_delete(self, client: ParticleSDK) -> None:
         document = client.documents.delete(
@@ -67,7 +67,7 @@ class TestDocuments:
         )
         assert_matches_type(ResponseMessage, document, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_delete(self, client: ParticleSDK) -> None:
         response = client.documents.with_raw_response.delete(
@@ -79,7 +79,7 @@ class TestDocuments:
         document = response.parse()
         assert_matches_type(ResponseMessage, document, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_delete(self, client: ParticleSDK) -> None:
         with client.documents.with_streaming_response.delete(
@@ -93,7 +93,7 @@ class TestDocuments:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_delete(self, client: ParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -101,7 +101,7 @@ class TestDocuments:
                 "",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_get_patient_documents(self, client: ParticleSDK) -> None:
         document = client.documents.get_patient_documents(
@@ -109,7 +109,7 @@ class TestDocuments:
         )
         assert_matches_type(DocumentGetPatientDocumentsResponse, document, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_get_patient_documents(self, client: ParticleSDK) -> None:
         response = client.documents.with_raw_response.get_patient_documents(
@@ -121,7 +121,7 @@ class TestDocuments:
         document = response.parse()
         assert_matches_type(DocumentGetPatientDocumentsResponse, document, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_get_patient_documents(self, client: ParticleSDK) -> None:
         with client.documents.with_streaming_response.get_patient_documents(
@@ -135,7 +135,7 @@ class TestDocuments:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_path_params_get_patient_documents(self, client: ParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -143,7 +143,7 @@ class TestDocuments:
                 "",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_submit(self, client: ParticleSDK) -> None:
         document = client.documents.submit(
@@ -152,7 +152,7 @@ class TestDocuments:
         )
         assert_matches_type(Document, document, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_submit(self, client: ParticleSDK) -> None:
         response = client.documents.with_raw_response.submit(
@@ -165,7 +165,7 @@ class TestDocuments:
         document = response.parse()
         assert_matches_type(Document, document, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_submit(self, client: ParticleSDK) -> None:
         with client.documents.with_streaming_response.submit(
@@ -186,7 +186,7 @@ class TestAsyncDocuments:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_retrieve(self, async_client: AsyncParticleSDK) -> None:
         document = await async_client.documents.retrieve(
@@ -194,7 +194,7 @@ class TestAsyncDocuments:
         )
         assert_matches_type(Document, document, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncParticleSDK) -> None:
         response = await async_client.documents.with_raw_response.retrieve(
@@ -206,7 +206,7 @@ class TestAsyncDocuments:
         document = await response.parse()
         assert_matches_type(Document, document, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncParticleSDK) -> None:
         async with async_client.documents.with_streaming_response.retrieve(
@@ -220,7 +220,7 @@ class TestAsyncDocuments:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_retrieve(self, async_client: AsyncParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -228,7 +228,7 @@ class TestAsyncDocuments:
                 "",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_delete(self, async_client: AsyncParticleSDK) -> None:
         document = await async_client.documents.delete(
@@ -236,7 +236,7 @@ class TestAsyncDocuments:
         )
         assert_matches_type(ResponseMessage, document, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_delete(self, async_client: AsyncParticleSDK) -> None:
         response = await async_client.documents.with_raw_response.delete(
@@ -248,7 +248,7 @@ class TestAsyncDocuments:
         document = await response.parse()
         assert_matches_type(ResponseMessage, document, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_delete(self, async_client: AsyncParticleSDK) -> None:
         async with async_client.documents.with_streaming_response.delete(
@@ -262,7 +262,7 @@ class TestAsyncDocuments:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_delete(self, async_client: AsyncParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -270,7 +270,7 @@ class TestAsyncDocuments:
                 "",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_get_patient_documents(self, async_client: AsyncParticleSDK) -> None:
         document = await async_client.documents.get_patient_documents(
@@ -278,7 +278,7 @@ class TestAsyncDocuments:
         )
         assert_matches_type(DocumentGetPatientDocumentsResponse, document, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_get_patient_documents(self, async_client: AsyncParticleSDK) -> None:
         response = await async_client.documents.with_raw_response.get_patient_documents(
@@ -290,7 +290,7 @@ class TestAsyncDocuments:
         document = await response.parse()
         assert_matches_type(DocumentGetPatientDocumentsResponse, document, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_get_patient_documents(self, async_client: AsyncParticleSDK) -> None:
         async with async_client.documents.with_streaming_response.get_patient_documents(
@@ -304,7 +304,7 @@ class TestAsyncDocuments:
 
         assert cast(Any, response.is_closed) is True
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_path_params_get_patient_documents(self, async_client: AsyncParticleSDK) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `id` but received ''"):
@@ -312,7 +312,7 @@ class TestAsyncDocuments:
                 "",
             )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_submit(self, async_client: AsyncParticleSDK) -> None:
         document = await async_client.documents.submit(
@@ -321,7 +321,7 @@ class TestAsyncDocuments:
         )
         assert_matches_type(Document, document, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_submit(self, async_client: AsyncParticleSDK) -> None:
         response = await async_client.documents.with_raw_response.submit(
@@ -334,7 +334,7 @@ class TestAsyncDocuments:
         document = await response.parse()
         assert_matches_type(Document, document, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_submit(self, async_client: AsyncParticleSDK) -> None:
         async with async_client.documents.with_streaming_response.submit(
