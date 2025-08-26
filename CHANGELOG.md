@@ -1,5 +1,39 @@
 # Changelog
 
+## 0.1.0-alpha.8 (2025-08-26)
+
+Full Changelog: [v0.1.0-alpha.7...v0.1.0-alpha.8](https://github.com/stsak20/particle_sdk/compare/v0.1.0-alpha.7...v0.1.0-alpha.8)
+
+### Features
+
+* **client:** support file upload requests ([f0f515a](https://github.com/stsak20/particle_sdk/commit/f0f515a0a7a0c03d712113f6aeaf50a64463ae6a))
+
+
+### Bug Fixes
+
+* **ci:** correct conditional ([1d4686c](https://github.com/stsak20/particle_sdk/commit/1d4686c16fe0ac0fea571429e4b460ef8b31fa21))
+* **client:** don't send Content-Type header on GET requests ([6939ae1](https://github.com/stsak20/particle_sdk/commit/6939ae17e3e71998f8b75ab0532dfcc6dee0ec76))
+* **parsing:** correctly handle nested discriminated unions ([54961aa](https://github.com/stsak20/particle_sdk/commit/54961aa140b46c2705858144a7c3a66033b50a7b))
+* **parsing:** ignore empty metadata ([454c344](https://github.com/stsak20/particle_sdk/commit/454c344f6a199a1fb746ac0aecc713681e71745b))
+* **parsing:** parse extra field types ([63b8e6b](https://github.com/stsak20/particle_sdk/commit/63b8e6bed6ef1bb90d0d039f21ab121d89f5749e))
+
+
+### Chores
+
+* **ci:** change upload type ([b05490c](https://github.com/stsak20/particle_sdk/commit/b05490ccdb717e7ab8bcf08f8884a2299bf34168))
+* **ci:** only run for pushes and fork pull requests ([6b23b34](https://github.com/stsak20/particle_sdk/commit/6b23b3455b9171803dc19b5c4cfc49bbf87bc0b6))
+* **internal:** bump pinned h11 dep ([7be28ff](https://github.com/stsak20/particle_sdk/commit/7be28ff7c84ca041937d8d4497c1907601ab3a28))
+* **internal:** change ci workflow machines ([7ff7c75](https://github.com/stsak20/particle_sdk/commit/7ff7c7534b87e256f097d649d2c178b9b04490c3))
+* **internal:** codegen related update ([d1dcd71](https://github.com/stsak20/particle_sdk/commit/d1dcd7195e9d39164c48d0487ae406d83cc1087b))
+* **internal:** codegen related update ([b39a3ba](https://github.com/stsak20/particle_sdk/commit/b39a3ba258d79186545c66429873fe25808176d5))
+* **internal:** fix ruff target version ([783c57d](https://github.com/stsak20/particle_sdk/commit/783c57d611d77ae7cacb1cbca88aad4f3ed879d1))
+* **internal:** update comment in script ([2285731](https://github.com/stsak20/particle_sdk/commit/2285731a104bbaef637908917610f72a0c094352))
+* **package:** mark python 3.13 as supported ([401c1fc](https://github.com/stsak20/particle_sdk/commit/401c1fcf27e2ceb2b883054fb323f332634d3369))
+* **project:** add settings file for vscode ([6c39f50](https://github.com/stsak20/particle_sdk/commit/6c39f5064426519b0e374ce8e7994417c5e54146))
+* **readme:** fix version rendering on pypi ([62a333b](https://github.com/stsak20/particle_sdk/commit/62a333bbf9a87ee7ad8d896141cef8db45fb69ed))
+* update @stainless-api/prism-cli to v5.15.0 ([28d2315](https://github.com/stsak20/particle_sdk/commit/28d23152bedf3a76768db979c5637965e7de9ced))
+* update github action ([87e05e3](https://github.com/stsak20/particle_sdk/commit/87e05e3308c9a48ccced35a6ff9cdc4bfbc6d987))
+
 ## 0.1.0-alpha.7 (2025-06-27)
 
 Full Changelog: [v0.1.0-alpha.6...v0.1.0-alpha.7](https://github.com/stsak20/particle_sdk/compare/v0.1.0-alpha.6...v0.1.0-alpha.7)
