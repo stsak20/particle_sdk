@@ -16,7 +16,7 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestAuth:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_method_generate_token(self, client: ParticleSDK) -> None:
         auth = client.auth.generate_token(
@@ -26,7 +26,7 @@ class TestAuth:
         )
         assert_matches_type(str, auth, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_raw_response_generate_token(self, client: ParticleSDK) -> None:
         response = client.auth.with_raw_response.generate_token(
@@ -40,7 +40,7 @@ class TestAuth:
         auth = response.parse()
         assert_matches_type(str, auth, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     def test_streaming_response_generate_token(self, client: ParticleSDK) -> None:
         with client.auth.with_streaming_response.generate_token(
@@ -62,7 +62,7 @@ class TestAsyncAuth:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_method_generate_token(self, async_client: AsyncParticleSDK) -> None:
         auth = await async_client.auth.generate_token(
@@ -72,7 +72,7 @@ class TestAsyncAuth:
         )
         assert_matches_type(str, auth, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_raw_response_generate_token(self, async_client: AsyncParticleSDK) -> None:
         response = await async_client.auth.with_raw_response.generate_token(
@@ -86,7 +86,7 @@ class TestAsyncAuth:
         auth = await response.parse()
         assert_matches_type(str, auth, path=["response"])
 
-    @pytest.mark.skip()
+    @pytest.mark.skip(reason="Prism tests are disabled")
     @parametrize
     async def test_streaming_response_generate_token(self, async_client: AsyncParticleSDK) -> None:
         async with async_client.auth.with_streaming_response.generate_token(

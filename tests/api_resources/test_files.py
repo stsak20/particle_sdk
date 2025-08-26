@@ -23,7 +23,6 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 class TestFiles:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
-    @pytest.mark.skip()
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     def test_method_download(self, client: ParticleSDK, respx_mock: MockRouter) -> None:
@@ -37,7 +36,6 @@ class TestFiles:
         assert cast(Any, file.is_closed) is True
         assert isinstance(file, BinaryAPIResponse)
 
-    @pytest.mark.skip()
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     def test_raw_response_download(self, client: ParticleSDK, respx_mock: MockRouter) -> None:
@@ -53,7 +51,6 @@ class TestFiles:
         assert file.json() == {"foo": "bar"}
         assert isinstance(file, BinaryAPIResponse)
 
-    @pytest.mark.skip()
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     def test_streaming_response_download(self, client: ParticleSDK, respx_mock: MockRouter) -> None:
@@ -71,7 +68,6 @@ class TestFiles:
 
         assert cast(Any, file.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     def test_path_params_download(self, client: ParticleSDK) -> None:
@@ -87,7 +83,6 @@ class TestFiles:
                 query_id="query_id",
             )
 
-    @pytest.mark.skip()
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     def test_method_download_zip(self, client: ParticleSDK, respx_mock: MockRouter) -> None:
@@ -100,7 +95,6 @@ class TestFiles:
         assert cast(Any, file.is_closed) is True
         assert isinstance(file, BinaryAPIResponse)
 
-    @pytest.mark.skip()
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     def test_raw_response_download_zip(self, client: ParticleSDK, respx_mock: MockRouter) -> None:
@@ -115,7 +109,6 @@ class TestFiles:
         assert file.json() == {"foo": "bar"}
         assert isinstance(file, BinaryAPIResponse)
 
-    @pytest.mark.skip()
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     def test_streaming_response_download_zip(self, client: ParticleSDK, respx_mock: MockRouter) -> None:
@@ -132,7 +125,6 @@ class TestFiles:
 
         assert cast(Any, file.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     def test_path_params_download_zip(self, client: ParticleSDK) -> None:
@@ -147,7 +139,6 @@ class TestAsyncFiles:
         "async_client", [False, True, {"http_client": "aiohttp"}], indirect=True, ids=["loose", "strict", "aiohttp"]
     )
 
-    @pytest.mark.skip()
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     async def test_method_download(self, async_client: AsyncParticleSDK, respx_mock: MockRouter) -> None:
@@ -161,7 +152,6 @@ class TestAsyncFiles:
         assert cast(Any, file.is_closed) is True
         assert isinstance(file, AsyncBinaryAPIResponse)
 
-    @pytest.mark.skip()
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     async def test_raw_response_download(self, async_client: AsyncParticleSDK, respx_mock: MockRouter) -> None:
@@ -177,7 +167,6 @@ class TestAsyncFiles:
         assert await file.json() == {"foo": "bar"}
         assert isinstance(file, AsyncBinaryAPIResponse)
 
-    @pytest.mark.skip()
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     async def test_streaming_response_download(self, async_client: AsyncParticleSDK, respx_mock: MockRouter) -> None:
@@ -195,7 +184,6 @@ class TestAsyncFiles:
 
         assert cast(Any, file.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     async def test_path_params_download(self, async_client: AsyncParticleSDK) -> None:
@@ -211,7 +199,6 @@ class TestAsyncFiles:
                 query_id="query_id",
             )
 
-    @pytest.mark.skip()
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     async def test_method_download_zip(self, async_client: AsyncParticleSDK, respx_mock: MockRouter) -> None:
@@ -224,7 +211,6 @@ class TestAsyncFiles:
         assert cast(Any, file.is_closed) is True
         assert isinstance(file, AsyncBinaryAPIResponse)
 
-    @pytest.mark.skip()
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     async def test_raw_response_download_zip(self, async_client: AsyncParticleSDK, respx_mock: MockRouter) -> None:
@@ -239,7 +225,6 @@ class TestAsyncFiles:
         assert await file.json() == {"foo": "bar"}
         assert isinstance(file, AsyncBinaryAPIResponse)
 
-    @pytest.mark.skip()
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     async def test_streaming_response_download_zip(
@@ -258,7 +243,6 @@ class TestAsyncFiles:
 
         assert cast(Any, file.is_closed) is True
 
-    @pytest.mark.skip()
     @parametrize
     @pytest.mark.respx(base_url=base_url)
     async def test_path_params_download_zip(self, async_client: AsyncParticleSDK) -> None:
